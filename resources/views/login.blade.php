@@ -8,7 +8,7 @@
             <x-link href="/reset-password" class="text-xl">Forgot Password?</x-link>
         </div>
         
-        <button class="ui fluid huge blue button">Log In</button>
+        <button class="ui fluid huge blue button" onclick="location.href = '/home'">Log In</button>
         
         <div class="ui divider  mt-12 mb-6"></div>
         

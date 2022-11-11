@@ -6,7 +6,7 @@
         </span>
     </div>
 
-    <a href="/home" class="item my-4">
+    <a href="/home" class="item my-2">
         <span class="font-medium text-2xl">
             Home
         </span>
