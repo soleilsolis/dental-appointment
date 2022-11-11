@@ -18,3 +18,9 @@ Route::get('/', function () {
 });
 
 Route::inertia('/about', 'AboutComponent');
+
+Route::get('/login', fn() => view('login'))->name('login');
+Route::get('/register', fn() => view('register'))->name('register');
+Route::get('/home', fn() => view('home'))->name('home');
+Route::get('/appointments', fn() => view('appointments'))->name('appointments');
+Route::get('/settings', fn() => view('settings'))->name('settings');
