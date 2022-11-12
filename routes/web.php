@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Artisan;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,3 +43,8 @@ Route::get('/register', fn() => view('register'))->name('register');
 Route::get('/home', fn() => view('home'))->name('home');
 Route::get('/appointments', fn() => view('appointments'))->name('appointments');
 Route::get('/settings', fn() => view('settings'))->name('settings');
+
+Route::get('/artisan/call/migrate', fn() => Artisan::call('migrate'));
+//Route::get('/artisan/call/migrate/rollback', fn() => Artisan::call('migrate:rollback'));
+Route::get('/artisan/call/storage/link', fn() => Artisan::call('storage:link'));
+Route::get('/artisan/call/view/clear', fn() => Artisan::call('view:clear'));
