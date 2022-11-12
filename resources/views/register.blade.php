@@ -5,7 +5,7 @@
         <x-forms.register />
 
         <div class="my-12">
-            <button class="ui fluid huge blue button">Sign Up</button>
+            <button class="ui fluid huge blue button" onclick="document.querySelector('#register-form').submit()">Sign Up</button>
         </div>
         
     

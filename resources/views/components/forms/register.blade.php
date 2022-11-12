@@ -1,4 +1,5 @@
-<form class="ui big form">
+<form id="register-form" class="ui big form" action="/register" method="POST">
+    @csrf
     <div class="field">
         <label for="name" class="text-[#7F8FA4]">Username</label>
         <input type="text" name="name" id="name">
@@ -7,7 +8,7 @@
 
     <div class="field">
         <label for="" class="text-[#7F8FA4]">Email</label>
-        <input type="email" name="" id="">
+        <input type="email" name="email" id="email">
         <span class=""></span>
     </div>
 

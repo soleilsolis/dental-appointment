@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,9 +14,24 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/testing', function () {
+    echo 1;
+});
 
 Route::get('/', function () {
     return redirect('/login');
+});
+
+Route::post('/register', function(Request $request){
+    User::create([
+        'name' =>  $request->name,
+        'email' =>  $request->email,
+        //'email_verified_at' => now(),
+        'password' => Hash::make($request->password),
+        'first_name' => null,
+        'last_name' => null,
+        'type' => 'patient',
+    ]);
 });
 
 Route::inertia('/about', 'AboutComponent');
