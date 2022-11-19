@@ -24,8 +24,9 @@ return new class extends Migration
             $table->date('date');
             $table->time('start_time');
             $table->time('end_time');
-            $table->timestamp('accepted_at');
-            $table->timestamp('cancelled_at');
+            $table->timestamp('accepted_at')->nullable();
+            $table->timestamp('cancelled_at')->nullable();
+            
             $table->timestamps();
         });
     }
