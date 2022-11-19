@@ -8,12 +8,12 @@
     "src": "resources/image/waves.svg"
   },
   "resources/js/app.js": {
-    "file": "assets/app.e5198d1b.js",
+    "file": "assets/app.c42fde88.js",
     "src": "resources/js/app.js",
     "isEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app.2d4d765e.css",
+    "file": "assets/app.d9c37656.css",
     "src": "resources/css/app.css",
     "isEntry": true
   }
