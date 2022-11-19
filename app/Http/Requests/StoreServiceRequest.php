@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreServiceRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class StoreServiceRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return Auth::user()->type === 'admin';
     }
 
     /**
@@ -24,7 +25,8 @@ class StoreServiceRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required|max:255',
+            'price' => 'required|numeric|max:9999999999999.99',
         ];
     }
 }

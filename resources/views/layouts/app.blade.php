@@ -20,7 +20,7 @@
 <body class="bg-[#F6F6F6]">
     <x-side-bar></x-side-bar>
 
-    <main class="pusher h-full p-6 pt-7 ml-80 pl-14 portrait:p-4 portrait:pt-5 portrait:ml-0">
+    <main class="pusher h-full p-6 pt-7 ml-80 pl-14 portrait:p-6 portrait:pt-5 portrait:ml-0">
         <x-header></x-header>
 
         <div class="mt-12 pb-20 portrait:mt-0">@yield('main')</div>

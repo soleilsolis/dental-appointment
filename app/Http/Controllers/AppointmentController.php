@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Appointment;
 use App\Http\Requests\StoreAppointmentRequest;
 use App\Http\Requests\UpdateAppointmentRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 
 class AppointmentController extends Controller
 {
@@ -13,9 +15,15 @@ class AppointmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $data = Auth::user()->type === 'admin' 
+                    ? Appointment::all()
+                    : Appointment::where('user_id', '=', Auth::id())
+                        ->orWhere('dentist_user_id', '=', Auth::id())
+                        ->get();
+        
+        return response()->json(compact('data'));
     }
 
     /**
@@ -36,7 +44,17 @@ class AppointmentController extends Controller
      */
     public function store(StoreAppointmentRequest $request)
     {
-        //
+        $request = $request->validated();
+
+        $data = Appointment::create([
+            'user_id' => Auth::id(),
+            'date' => $request->date,
+            'start_time' => $request->start_time,
+            'end_time' => $request->end_time,
+            'service_id' => $request->service_id,
+        ]);
+
+        return response()->json(compact('data'));
     }
 
     /**
@@ -45,9 +63,12 @@ class AppointmentController extends Controller
      * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Http\Response
      */
-    public function show(Appointment $appointment)
+    public function show(Appointment $appointment, Request $request)
     {
-        //
+        $appointment = Appointment::findOrFail($request->id);
+
+        return response()->json(compact('data'));
+
     }
 
     /**
@@ -56,9 +77,11 @@ class AppointmentController extends Controller
      * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Http\Response
      */
-    public function edit(Appointment $appointment)
+    public function edit(Request $request)
     {
-        //
+        $appointment = Appointment::findOrFail($request->id);
+
+        return view('appointment.edit', compact('appointment'));
     }
 
     /**
@@ -68,10 +91,23 @@ class AppointmentController extends Controller
      * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateAppointmentRequest $request, Appointment $appointment)
+    public function update(UpdateAppointmentRequest $request)
     {
-        //
+        $request = $request->validated();
+
+        $appointment = Appointment::findOrFail($request->id);
+
+        $appointment->accepted_at = $request->accepted_at;
+        $appointment->canceled_at = $request->canceled_at;
+
+        $appointment->save();
+
+        $data = $appointment;
+
+        return response()->json(compact('data'));
+
     }
+    
 
     /**
      * Remove the specified resource from storage.

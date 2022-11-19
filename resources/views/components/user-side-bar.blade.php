@@ -10,11 +10,14 @@
         </span>
     </a>
     <div href="" class="item">
-        <button class="ui large red button">
-            <i class="power off icon"></i>
-
-            Log Out
-        </button>
+        <form action="/logout" method="POST">
+            @csrf
+            <button class="ui large red button" type="submit">
+                <i class="power off icon"></i>
+    
+                Log Out
+            </button>
+        </form>
     </div>
 
 </div>

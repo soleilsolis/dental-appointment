@@ -10,10 +10,11 @@ class Appointment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'dentist_user_id',
         'user_id',
-        'start_date',
-        'end_date',
+        'date',
+        'start_time',
+        'end_time',
+        'service_id',
     ];
 
     public function patient()

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreAppointmentRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class StoreAppointmentRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return Auth::user()->type === 'patient';
     }
 
     /**
@@ -24,7 +25,10 @@ class StoreAppointmentRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'service_id' => 'required|numeric',
+            'date' => 'required|date',
+            'start_time' => 'required',
+            'end_time' => 'required|gt:start_time',
         ];
     }
 }

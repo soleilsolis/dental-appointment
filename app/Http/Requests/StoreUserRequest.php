@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 
-class UpdateAppointmentRequest extends FormRequest
+class StoreUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,8 +13,7 @@ class UpdateAppointmentRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->type === 'dentist';
-
+        return true;
     }
 
     /**
@@ -26,8 +24,11 @@ class UpdateAppointmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'accepted_at' => 'date',
-            'cancelled_at' => 'date',
+            'name' =>  'required|unique:users',
+            'email' =>  'required|email:rfc,dns',
+            'password' => 'required|min:8',
+            'first_name' => 'required',
+            'last_name' => 'required',
         ];
     }
 }

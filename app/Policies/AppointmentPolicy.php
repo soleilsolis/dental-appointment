@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Appointment;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Auth;
 
 class AppointmentPolicy
 {
@@ -30,7 +31,7 @@ class AppointmentPolicy
      */
     public function view(User $user, Appointment $appointment)
     {
-        //
+        
     }
 
     /**
@@ -53,7 +54,7 @@ class AppointmentPolicy
      */
     public function update(User $user, Appointment $appointment)
     {
-        //
+        return Auth::user()->type !== 'patient';
     }
 
     /**

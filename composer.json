@@ -8,6 +8,7 @@
         "php": "^8.0.2",
         "guzzlehttp/guzzle": "^7.2",
         "inertiajs/inertia-laravel": "^0.6.3",
+        "laravel/fortify": "^1.13",
         "laravel/framework": "^9.19",
         "laravel/jetstream": "^2.12",
         "laravel/sanctum": "^3.0",
@@ -15,7 +16,6 @@
         "tightenco/ziggy": "^1.5"
     },
     "require-dev": {
-        "beyondcode/laravel-er-diagram-generator": "^1.5",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.0.1",

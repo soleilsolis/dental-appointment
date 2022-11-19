@@ -4,7 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Artisan;
+
+use App\Http\Controllers\AppointmentController;
+use App\Models\Appointment;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,35 +18,27 @@ use Illuminate\Support\Facades\Artisan;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/testing', function () {
-    echo 1;
-});
 
 Route::get('/', function () {
     return redirect('/login');
 });
 
-Route::post('/register', function(Request $request){
-    User::create([
-        'name' =>  $request->name,
-        'email' =>  $request->email,
-        //'email_verified_at' => now(),
-        'password' => Hash::make($request->password),
-        'first_name' => null,
-        'last_name' => null,
-        'type' => 'patient',
-    ]);
-});
-
 Route::inertia('/about', 'AboutComponent');
 
-Route::get('/login', fn() => view('login'))->name('login');
-Route::get('/register', fn() => view('register'))->name('register');
-Route::get('/home', fn() => view('home'))->name('home');
-Route::get('/appointments', fn() => view('appointments'))->name('appointments');
-Route::get('/settings', fn() => view('settings'))->name('settings');
+Route::middleware('guest')->group(function() {
+    Route::get('/login', fn() => view('login'))->name('login');
+    Route::get('/register', fn() => view('register'))->name('register');
+});
 
-Route::get('/artisan/call/migrate', fn() => Artisan::call('migrate'));
-//Route::get('/artisan/call/migrate/rollback', fn() => Artisan::call('migrate:rollback'));
-Route::get('/artisan/call/storage/link', fn() => Artisan::call('storage:link'));
-Route::get('/artisan/call/view/clear', fn() => Artisan::call('view:clear'));
+Route::middleware('auth')->group(function() {
+    Route::get('/home', fn() => view('home'))->name('home');
+    
+    Route::get('/appointments', fn() => view('appointments', [AppointmentController::class, 'index']))->name('appointments');
+    
+    Route::get('/settings', fn() => view('settings'))->name('settings');
+
+    Route::middleware('admin')->group(function() {
+        Route::get('/services', fn() => view('services'))->name('services');
+        Route::get('/users', fn() => view('users', [UserController::class, 'index']))->name('users');
+    });
+});

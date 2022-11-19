@@ -1,20 +1,17 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Cards;
 
 use Illuminate\View\Component;
 
-class SideForm extends Component
+class StatisticCard extends Component
 {
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct(
-        public string $title = '',
-        public string $subtitle = '',
-    )
+    public function __construct()
     {
         //
     }
@@ -26,6 +23,6 @@ class SideForm extends Component
      */
     public function render()
     {
-        return view('components.side-form');
+        return view('components.cards.statistic-card');
     }
 }
