@@ -17,7 +17,7 @@
         }
     </style>
 </head>
-<body class="bg-cover bg-no-repeat" style="background-image: url({{ Vite::asset('resources/image/waves.svg') }})">
+<body class="bg-cover bg-no-repeat" style="background-image: url({{ Vite::asset('resources/image/pexel.jpg') }})">
     <main class="h-full">
         @yield('main')
     </main>

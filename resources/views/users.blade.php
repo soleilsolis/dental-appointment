@@ -1,4 +1,6 @@
-
+@php
+    use App\Models\User;
+@endphp
 
 @extends('layouts.app')
 
@@ -8,22 +10,20 @@
 @section('main')
     <table class="ui large celled selectable stackable table max-w-[1400px]">
         <thead onclick="$('#appointment-modal').modal('show')">
-            <th></th>
-            <th>Name</th>
-            <th>Appointment Date</th>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Type</th>
             <th class="collapsing right aligned">Status</th>
         </thead>
         <tbody>
 
-            @foreach ($appointments as $appointment)
+            @foreach (User::all() as $user)
             <tr onclick="$('#appointment-modal').modal('show')">
-                <td>{{ $appointment->id }}</td>
-                <td>{{ $appointment->patient->last_name }}, {{ $appointment->patient->first_name }}</td>
-                <td>{{ \Carbon\Carbon::parse($appointment->date)->format('F d, Y') }} 
-                    : {{ \Carbon\Carbon::parse($appointment->start_time)->format('g:i A') }} 
-                    - {{ \Carbon\Carbon::parse($appointment->end_time)->format('H:i A') }}
-                </td>
+                <td>{{ $user->id }}</td>
+                <td>{{ $user->name }}</td>
+                <td>{{ $user->type }}</td>
                 <td class="collapsing right aligned">
+                    <span class="ui yellow label">Pending</span>
                 </td>
             </tr>
             @endforeach

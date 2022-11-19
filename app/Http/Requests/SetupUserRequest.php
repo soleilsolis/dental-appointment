@@ -4,17 +4,18 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
-class StoreAppointmentRequest extends FormRequest
+class SetupUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(Request $request)
     {
-        return Auth::user()->type === 'patient';
+        return ! Auth::user()->first_name;
     }
 
     /**
@@ -25,10 +26,8 @@ class StoreAppointmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'service_id' => 'required|numeric',
-            'date' => 'required|date',
-            'start_time' => 'required|date_format:H:i',
-            'end_time' => 'required|date_format:H:i|after_or_equal:start_time',
+            'first_name' => 'required|alpha_dash',
+            'last_name' => 'required|alpha_dash',
         ];
     }
 }

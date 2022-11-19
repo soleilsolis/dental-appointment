@@ -17,40 +17,38 @@
         }
     </style>
 </head>
-<body class="bg-[#F6F6F6]">
-    <x-side-bar></x-side-bar>
+<body class="bg-slate-50 ">
+    <main class="h-full max-w-[500px] mx-auto p-6">
+        <div class="flex items-center justify-center">
+            <a href="/login">
+                <img src="{{ Vite::asset('resources/image/logo.png') }}" alt="logo" class="ui circular image w-16 shadow-md">
+            </a>
+            <span class="ml-5 text-2xl font-bold">RM Dental Studio</span>
+        </div>
 
-    <main class="pusher h-full p-6 pt-7 ml-80 pl-8 portrait:p-6 portrait:pt-5 portrait:ml-0">
-        <x-header></x-header>
+        <h1 class="text-center text-4xl font-bold mt-8">@yield('title')</h1>
+        <p class="text-center text-gray-500 mb-12 mt-4 text-xl">@yield('subtitle')</p>
 
-        <div class="mt-12 pb-20 portrait:mt-0">@yield('main')</div>
+
+        @yield('main')
+
+        <form action="/logout" method="POST" class=" text-center">
+            @csrf
+            <button class="ui circular large red button mt-5 " type="submit">
+                
+    
+                Log Out
+            </button>
+        </form>
     </main>
 
-    <x-user-side-bar></x-user-side-bar>
-
-    <div id="new-appointment" class="ui basic small modal">
-        <div class="bg-white shadow-md p-6 rounded-md overflow-auto">
-            <h1 class="mb-10 text-black text-3xl font-bold">New Appointment</h1>
-            <x-forms.appointment />
-        </div>
-    </div>
-    
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.5.0/semantic.min.js" integrity="sha512-Xo0Jh8MsOn72LGV8kU5LsclG7SUzJsWGhXbWcYs2MAmChkQzwiW/yTQwdJ8w6UA9C6EVG18GHb/TrYpYCjyAQw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js" integrity="sha256-+8RZJua0aEWg+QVVKg4LEzEEm/8RFez5Tb4JBNiV5xA=" crossorigin="anonymous"></script>
     @vite('resources/js/app.js')
-    
-    @yield('scripts')
 
     <script>
-        $('.dropdown').dropdown();
-
         function reload() {
             location.reload();
-        }
-
-        function appointments() {
-            location.href = '/appointments';
         }
     </script>
 </body>

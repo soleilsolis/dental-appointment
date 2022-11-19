@@ -17,13 +17,13 @@ class AppointmentController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Auth::user()->type === 'admin' 
+        $appointments = Auth::user()->type === 'admin' 
                     ? Appointment::all()
                     : Appointment::where('user_id', '=', Auth::id())
                         ->orWhere('dentist_user_id', '=', Auth::id())
                         ->get();
-        
-        return response()->json(compact('data'));
+                        
+        return view('appointments',compact('appointments') );
     }
 
     /**
@@ -44,8 +44,8 @@ class AppointmentController extends Controller
      */
     public function store(StoreAppointmentRequest $request)
     {
-        $request = $request->validated();
-
+        //$request = $request->validated();
+        
         $data = Appointment::create([
             'user_id' => Auth::id(),
             'date' => $request->date,

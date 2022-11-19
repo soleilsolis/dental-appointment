@@ -18,15 +18,17 @@
         </span>
     </a>
 
-    <!-- <a href="/appointments" class="item ">
-        <span class="font-medium text-2xl">
-            Services
-        </span>
-    </a>
+    @if (\Illuminate\Support\Facades\Auth::user()->type === 'admin')
+        <a href="/services" class="item ">
+            <span class="font-medium text-2xl">
+                Services
+            </span>
+        </a>
 
-    <a href="/appointments" class="item ">
-        <span class="font-medium text-2xl">
-            Users
-        </span>
-    </a>-->
+        <a href="/users" class="item ">
+            <span class="font-medium text-2xl">
+                Users
+            </span>
+        </a>
+    @endif
 </div>

@@ -28,14 +28,18 @@ Route::inertia('/about', 'AboutComponent');
 Route::middleware('guest')->group(function() {
     Route::get('/login', fn() => view('login'))->name('login');
     Route::get('/register', fn() => view('register'))->name('register');
+    Route::get('/forgot-password', fn() => view('forgot-password'))->name('forgot-password');
+
 });
 
 Route::middleware('auth')->group(function() {
-    Route::get('/home', fn() => view('home'))->name('home');
-    
-    Route::get('/appointments', fn() => view('appointments', [AppointmentController::class, 'index']))->name('appointments');
-    
-    Route::get('/settings', fn() => view('settings'))->name('settings');
+    Route::get('setup', fn() => view('setup'))->middleware('not.setup');
+
+    Route::middleware('setup')->group(function () {
+        Route::get('/home', fn() => view('home'))->name('home');
+        Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments');
+        Route::get('/settings', fn() => view('settings'))->name('settings');
+    });
 
     Route::middleware('admin')->group(function() {
         Route::get('/services', fn() => view('services'))->name('services');

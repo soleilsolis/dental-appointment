@@ -1,23 +1,20 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Forms;
 
 use Illuminate\View\Component;
 
-class Field extends Component
+class ForgotPassword extends Component
 {
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct(
-        public string $label = '',
-        public string $id = '',
-        public string $name = '',
-        public string $type = '',
-    )
-    {}
+    public function __construct()
+    {
+        //
+    }
 
     /**
      * Get the view / contents that represent the component.
@@ -26,6 +23,6 @@ class Field extends Component
      */
     public function render()
     {
-        return view('components.field');
+        return view('components.forms.forgot-password');
     }
 }

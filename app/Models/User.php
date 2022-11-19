@@ -44,6 +44,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $attributes = [
+        'type' => 'patient',
+    ];
+
     public function notifications()
     {
         return $this->morphMany(Notification::class, 'notifiable');

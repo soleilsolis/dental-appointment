@@ -8,6 +8,13 @@
     </div>
 
     <div class="right menu">
+
+        <div class="item text-black cursor-pointer" data-tooltip="New Appointment" data-position="bottom center" >
+            <i  onclick="$('#new-appointment').modal('show')" class="large plus icon" ></i>
+        </div>
+        <div class="item text-black">
+            <i class="large bell icon"></i>
+        </div>
         <div class="fitted item text-black">
             <img onclick="$('#user-sidebar').sidebar('toggle')" class="ui avatar image w-10 h-10" src="https://i.picsum.photos/id/237/200/300.jpg?hmac=TmmQSbShHz9CdQm0NkEjx1Dyh_Y984R9LpNrpvH2D_U">
         </div>
