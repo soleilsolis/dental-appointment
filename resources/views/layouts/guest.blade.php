@@ -31,5 +31,7 @@
             location.reload();
         }
     </script>
+
+    @yield('scripts')
 </body>
 </html>

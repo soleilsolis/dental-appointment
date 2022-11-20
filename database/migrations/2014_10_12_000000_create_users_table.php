@@ -22,6 +22,8 @@ return new class extends Migration
             $table->text('first_name')->nullable();
             $table->text('last_name')->nullable();
             $table->enum('type', ['dentist', 'patient', 'admin']);
+            $table->date('birthdate')->nullable();
+
             $table->rememberToken();
             $table->timestamps();
         });

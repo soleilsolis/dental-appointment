@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\ServiceController;
 use App\Models\Appointment;
 
 /*
@@ -28,7 +29,7 @@ Route::inertia('/about', 'AboutComponent');
 Route::middleware('guest')->group(function() {
     Route::get('/login', fn() => view('login'))->name('login');
     Route::get('/register', fn() => view('register'))->name('register');
-    Route::get('/forgot-password', fn() => view('forgot-password'))->name('forgot-password');
+    Route::get('/forgot', fn() => view('forgot-password'));
 
 });
 
@@ -42,7 +43,7 @@ Route::middleware('auth')->group(function() {
     });
 
     Route::middleware('admin')->group(function() {
-        Route::get('/services', fn() => view('services'))->name('services');
+        Route::get('/services', [ServiceController::class, 'index'])->name('services');
         Route::get('/users', fn() => view('users', [UserController::class, 'index']))->name('users');
     });
 });

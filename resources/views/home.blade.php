@@ -6,25 +6,44 @@
     <div class="grid grid-cols-4 portrait:grid-cols-2 gap-5 portrait:gap-x-2">
         <div>
             <div class="ui segment p-6 portrait:p-5 border-0 bg-[#E9EDF1] shadow-sm ">
-                <div class="font-bold text-5xl portrait:text-4xl">100</div>
+                <div class="font-bold text-5xl portrait:text-4xl">
+                    {{ \App\Models\Appointment::all()->count() }}
+                </div>
                 <div class="mt-5 text-xl font-medium">Appointments</div>
             </div>
         </div>
         <div>
             <div class="ui segment p-6 portrait:p-5 border-0 bg-[#E9EDF1] shadow-sm ">
-                <div class="font-bold text-5xl portrait:text-4xl">5</div>
+                <div class="font-bold text-5xl portrait:text-4xl">
+                    {{ \App\Models\Appointment::where([
+                        ['created_at', '>', now()->subDays(5)],
+                        ['accepted_at', '=', NULL],
+                        ['cancelled_at', '=', NULL],
+                    ])->count() }}
+
+                </div>
                 <div class="mt-5 text-xl font-medium">New</div>
             </div>
         </div>
         <div>
             <div class="ui segment p-6 portrait:p-5 border-0 bg-[#E9EDF1] shadow-sm ">
-                <div class="font-bold text-5xl portrait:text-4xl">7</div>
+                <div class="font-bold text-5xl portrait:text-4xl">
+                    {{ 
+                        \App\Models\Appointment::where('accepted_at', '!=', NULL)
+                            ->where('cancelled_at', '=', NULL)
+                            ->count() 
+                    }}
+
+                </div>
                 <div class="mt-5 text-xl font-medium">Scheduled</div>
             </div>
         </div>
         <div>
             <div class="ui red secondary inverted segment p-6 portrait:p-5 border-0 shadow-sm ">
-                <div class="font-bold text-5xl portrait:text-4xl">5</div>
+                <div class="font-bold text-5xl portrait:text-4xl">
+                    {{ \App\Models\Appointment::where('cancelled_at', '!=', NULL)->count() }}
+
+                </div>
                 <div class="mt-5 text-xl font-medium">Canceled</div>
             </div>
         </div>

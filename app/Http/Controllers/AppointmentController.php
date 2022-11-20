@@ -6,7 +6,7 @@ use App\Models\Appointment;
 use App\Http\Requests\StoreAppointmentRequest;
 use App\Http\Requests\UpdateAppointmentRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
 {
@@ -17,10 +17,9 @@ class AppointmentController extends Controller
      */
     public function index(Request $request)
     {
-        $appointments = Auth::user()->type === 'admin' 
+        $appointments = Auth::user()->type !== 'patient' 
                     ? Appointment::all()
                     : Appointment::where('user_id', '=', Auth::id())
-                        ->orWhere('dentist_user_id', '=', Auth::id())
                         ->get();
                         
         return view('appointments',compact('appointments') );
@@ -43,15 +42,14 @@ class AppointmentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(StoreAppointmentRequest $request)
-    {
-        //$request = $request->validated();
-        
+    {        
         $data = Appointment::create([
             'user_id' => Auth::id(),
             'date' => $request->date,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
             'service_id' => $request->service_id,
+            'notes' => $request->notes,
         ]);
 
         return response()->json(compact('data'));
@@ -65,7 +63,9 @@ class AppointmentController extends Controller
      */
     public function show(Appointment $appointment, Request $request)
     {
-        $appointment = Appointment::findOrFail($request->id);
+        $data = Appointment::findOrFail($request->id);
+        $data->service = $data->service;
+        $data->patient = $data->patient;
 
         return response()->json(compact('data'));
 
@@ -91,14 +91,24 @@ class AppointmentController extends Controller
      * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateAppointmentRequest $request)
+    public function accept(Request $request)
     {
-        $request = $request->validated();
-
         $appointment = Appointment::findOrFail($request->id);
 
-        $appointment->accepted_at = $request->accepted_at;
-        $appointment->canceled_at = $request->canceled_at;
+        $appointment->accepted_at = $appointment->accepted_at ?? now();
+
+        $appointment->save();
+
+        $data = $appointment;
+
+        return response()->json(compact('data'));
+
+    }
+
+    public function cancel(Request $request)
+    {
+        $appointment = Appointment::findOrFail($request->id);
+        $appointment->cancelled_at =  $appointment->cancelled_at ?? now();
 
         $appointment->save();
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Service;
 use App\Http\Requests\StoreServiceRequest;
 use App\Http\Requests\UpdateServiceRequest;
+use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {
@@ -15,9 +16,9 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        $data = Service::all();
+        $services = Service::all();
         
-        return response()->json(compact('data'));
+        return view('services', compact('services'));
     }
 
     /**
@@ -38,7 +39,12 @@ class ServiceController extends Controller
      */
     public function store(StoreServiceRequest $request)
     {
-        //
+        $data = Service::create([
+            'name' => $request->name,
+            'price' => $request->price,
+        ]);
+        
+        return response()->json(compact('data'));
     }
 
     /**
@@ -47,9 +53,11 @@ class ServiceController extends Controller
      * @param  \App\Models\Service  $service
      * @return \Illuminate\Http\Response
      */
-    public function show(Service $service)
+    public function show(Service $service, Request $request)
     {
-        //
+        $data = Service::findOrFail($request->id);
+
+        return response()->json(compact('data'));
     }
 
     /**
@@ -72,7 +80,13 @@ class ServiceController extends Controller
      */
     public function update(UpdateServiceRequest $request, Service $service)
     {
-        //
+        $data = $service->findOrFail($request->id);
+        $data->name = $request->name;
+        $data->price = $request->price;
+
+        $data->save();
+        
+        return response()->json(compact('data'));
     }
 
     /**
@@ -81,8 +95,12 @@ class ServiceController extends Controller
      * @param  \App\Models\Service  $service
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Service $service)
+    public function destroy(Service $service, Request $request)
     {
-        //
+        $data = $service->findOrFail($request->id);
+        $data->delete();
+
+        return response()->json(compact('data'));
+
     }
 }

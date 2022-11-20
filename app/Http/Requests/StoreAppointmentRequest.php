@@ -29,6 +29,7 @@ class StoreAppointmentRequest extends FormRequest
             'date' => 'required|date',
             'start_time' => 'required|date_format:H:i',
             'end_time' => 'required|date_format:H:i|after_or_equal:start_time',
+            'notes' => 'required'
         ];
     }
 }

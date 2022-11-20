@@ -1,11 +1,11 @@
-create Appointment modal
-view appointment modal 
 
-accept / cancel appointment modal with notes
+X view appointment modal 
+
+X accept / cancel appointment modal with notes
 
 admin create dentist account 
 archive / delete dentist
 
-forgot password
+statistics
 
 notifications

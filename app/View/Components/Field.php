@@ -16,6 +16,9 @@ class Field extends Component
         public string $id = '',
         public string $name = '',
         public string $type = '',
+        public string $placeholder = '',
+        public int $required = 0,
+
     )
     {}
 

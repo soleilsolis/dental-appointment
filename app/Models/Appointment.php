@@ -15,6 +15,8 @@ class Appointment extends Model
         'start_time',
         'end_time',
         'service_id',
+        'notes',
+
     ];
 
     public function patient()
@@ -25,5 +27,10 @@ class Appointment extends Model
     public function dentist()
     {
         return $this->belongsTo(User::class , 'dentist_user_id');
+    }
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
     }
 }

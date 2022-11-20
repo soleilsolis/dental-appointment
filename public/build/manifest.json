@@ -1,11 +1,11 @@
 {
-  "resources/image/waves.svg": {
-    "file": "assets/waves.22c0dce1.svg",
-    "src": "resources/image/waves.svg"
-  },
   "resources/image/logo.png": {
     "file": "assets/logo.24ef85cc.png",
     "src": "resources/image/logo.png"
+  },
+  "resources/image/waves.svg": {
+    "file": "assets/waves.22c0dce1.svg",
+    "src": "resources/image/waves.svg"
   },
   "resources/image/pexel.jpg": {
     "file": "assets/pexel.d199a1cf.jpg",
@@ -17,7 +17,7 @@
     "isEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app.9443e93d.css",
+    "file": "assets/app.74edaff1.css",
     "src": "resources/css/app.css",
     "isEntry": true
   }

@@ -9,9 +9,11 @@
 
     <div class="right menu">
 
-        <div class="item text-black cursor-pointer" data-tooltip="New Appointment" data-position="bottom center" >
-            <i  onclick="$('#new-appointment').modal('show')" class="large plus icon" ></i>
-        </div>
+        @if (\Illuminate\Support\Facades\Auth::user()->type === 'patient')
+            <div class="item text-black cursor-pointer" data-tooltip="New Appointment" data-position="bottom center" >
+                <i  onclick="$('#new-appointment').modal('show')" class="large plus icon" ></i>
+            </div>
+        @endif
         <div class="item text-black">
             <i class="large bell icon"></i>
         </div>
