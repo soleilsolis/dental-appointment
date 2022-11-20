@@ -4,7 +4,7 @@
 
 @extends('layouts.app')
 
-@section('title', 'Appointments')
+@section('title', 'Users')
 
 
 @section('main')
