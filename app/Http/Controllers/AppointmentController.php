@@ -133,9 +133,13 @@ class AppointmentController extends Controller
 
     public function print() {
         $data = Appointment::all();
+        
+        foreach ($data as $pp) {
+            $pp->dentist  = $pp->dentist;
+            $pp->patient = $pp->patient;
+            $pp->service = $pp->service;
+        }
 
-        dd($data->toArray());
-        // share data to view
         view()->share('appointment',$data->toArray());
         $pdf = PDF::loadView('test', $data->toArray());
         // download PDF file with download method

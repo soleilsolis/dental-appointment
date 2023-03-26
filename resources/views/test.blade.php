@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>All Appointments</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css" />
+
 </head>
 <body>
     <div class="container mt-5">
@@ -29,18 +29,18 @@
                 @foreach($appointment ?? '' as $data)
                 <tr>
                     <th scope="row">{{ $data->id ?? $data['id']}}</th>
-                    <td>{{ $data->patient->last_name }}, {{ $data->patient->first_name }}</td>
-                    <td>{{ $data->service->name }}</td>
-                    <td>{{ $data->date }}
-                        : {{ $data->start_time }}
-                        - {{ $data->end_time }}</td>
-                    <td>   {{ $data->dentist ? "{$data->dentist->last_name}, {$data->dentist->first_name}" : 'TBA' }}</td>
+                    <td>{{ $data->patient->last_name ?? $data['patient']['last_name'] }}, {{ $data->patient->first_name ?? $data['patient']['first_name'] }}</td>
+                    <td>{{ $data->service->name ?? $data['service']['name'] }}</td>
+                    <td>{{ $data->date ?? $data['date']}}
+                        : {{ $data->start_time ?? $data['start_time'] }}
+                        - {{ $data->end_time ?? $data['end_time'] }}</td>
+                    <td>   {{ $data['dentist']  ? "{$data['dentist']['last_name']}, {$data['dentist']['first_name']}" : 'TBA' }}</td>
                         <td>
-                            @if ($data->accepted_at && !$data->cancelled_at)
+                            @if ($data['accepted_at'] && !$data['cancelled_at'])
                             <span class="ui green label">Accepted</span>
-                        @elseif($data->cancelled_at)
+                        @elseif($data['cancelled_at'])
                             <span class="ui red label">Cancelled</span>
-                        @elseif($data->completed_at)
+                        @elseif($data['completed_at'])
                             <span class="ui label">Complete</span>
                         @else
                             <span class="ui yellow label">Pending</span>
@@ -51,6 +51,6 @@
             </tbody>
         </table>
     </div>
-    <script src="{{ asset('js/app.js') }}" type="text/js"></script>
+
 </body>
 </html>
