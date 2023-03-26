@@ -6,7 +6,7 @@
 @section('main')
 
 @if (\Illuminate\Support\Facades\Auth::user()->type === 'dentist')
-<a class="ui bluerounded button" href="/appointments/print">Export to PDF</a>
+<a class="ui blue button" href="/appointments/print">Export to PDF</a>
 @endif
     <table class="ui selectable stackable table max-w-[1400px]">
         <thead>
