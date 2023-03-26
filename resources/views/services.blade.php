@@ -9,7 +9,7 @@
 
 @section('main')
 
-    <button class="ui blue button" onclick="newService()">New Service</button>
+    <button class="ui bluerounded button" onclick="newService()">New Service</button>
     <table class="ui celled selectable stackable table max-w-[1400px]">
         <thead>
             <th>ID</th>

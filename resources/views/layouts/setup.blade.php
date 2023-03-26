@@ -34,7 +34,7 @@
 
         <form action="/logout" method="POST" class=" text-center">
             @csrf
-            <button class="ui circular large red button mt-5 " type="submit">
+            <button class="ui circular large redrounded button mt-5 " type="submit">
                 
     
                 Log Out

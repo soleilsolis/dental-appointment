@@ -60,7 +60,7 @@
             </div>
         </div>
         <div class="actions">
-            <button class="ui button" onclick="$('#appointment-modal').modal('hide')">Close</button>
+            <button class="uirounded button" onclick="$('#appointment-modal').modal('hide')">Close</button>
         </div>
     </div>
 @endsection
