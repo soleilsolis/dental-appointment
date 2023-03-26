@@ -77,8 +77,8 @@ class AppointmentController extends Controller
         $data->service = $data->service;
         $data->patient = $data->patient;
         $data->date = $appointment->date ? Carbon::parse($appointment->date)->format('F d, Y') : NULL;
-        $data->start_time = $appointment->date ? Carbon::parse($appointment->start_time)->format('g:i A'): NULL;
-        $data->end_time = $appointment->date ? Carbon::parse($appointment->end_time)->format('g:i A'): NULL;
+        $data->start_time = $appointment->start_time ? Carbon::parse($appointment->start_time)->format('g:i A'): NULL;
+        $data->end_time = $appointment->end_time ? Carbon::parse($appointment->end_time)->format('g:i A'): NULL;
 
         return response()->json(compact('data'));
 
