@@ -1,4 +1,4 @@
-<form class="ui large form submit-form"
+<form class="ui form submit-form"
     data-method="POST"
     data-action="/forgot-password"
     data-api="no"
@@ -6,7 +6,5 @@
 >
     @csrf
     <x-field id="email" name="email" type="text" label="Email" ></x-field>
-  
-    <button class="ui fluid circular big blue button mt-12" type="submit">Log In</button>
-    
+    <x-button class="blue" type="submit">Send Email</x-button>
 </form>

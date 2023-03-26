@@ -1,16 +1,16 @@
-<div class="field {{ $required ? 'required' : '' }}">
-    <label for="{{ $id ?? '' }}" class="text-[#7F8FA4]">{{ $label ?? '' }}</label>
+<div class="field {{ $required ? 'required' : '' }} {{ $attributes->get('data-fieldclass') ?? '' }}" >
+    <label for="{{ $attributes->get('id') ?? '' }}" class="text-[#7F8FA4]">{{ $attributes->get('label') ?? '' }}</label>
     
-    @if ($type === 'dropdown')
-        <select class="ui dropdown" name="{{ $name ?? '' }}" id="{{ $id ?? '' }}">
+    @if ($attributes->get('type') === 'dropdown')
+        <select class="ui dropdown" {{ $attributes }}>
             {{ $slot }}
         </select>
-    @elseif ($type === 'textarea')
-        <textarea name="{{ $name ?? '' }}" id="{{ $id ?? '' }}" class="resize-none" placeholder="{{ $placeholder ?? '' }}"></textarea>
+    @elseif ($attributes->get('type') === 'textarea')
+        <textarea {{ $attributes }} class="resize-none"></textarea>
 
     @else
-        <input type="{{ $type ?? '' }}" name="{{ $name ?? '' }}" id="{{ $id ?? '' }}" autocomplete="off" placeholder="{{ $placeholder ?? '' }}">
+        <input {{ $attributes }}>
         
     @endif
-    <span id="error_{{ $id ?? '' }}" class="text-red-600 text-sm"></span>
+    <span id="error_{{ $attributes->get('id') ?? '' }}" class="text-red-600 text-sm h-[15px]">&nbsp;</span>
 </div>

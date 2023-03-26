@@ -1,9 +1,9 @@
 <header class="ui secondary fitted menu">
     <div class="fitted item landscape:hidden">
-        <img src="https://img.icons8.com/ios-filled/50/null/menu-rounded.png" class="w-6 mr-6"/>
+        <img onclick="$('#side-bar').sidebar('toggle')" src="https://img.icons8.com/ios-filled/50/null/menu-rounded.png" class="w-8 mr-8"/>
     </div>
 
-    <div class="fitted item ">
+    <div class="fitted item portrait:hidden">
         <div class="font-bold text-4xl portrait:text-2xl">@yield('title')</div>
     </div>
 

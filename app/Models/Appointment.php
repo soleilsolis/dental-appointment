@@ -16,7 +16,8 @@ class Appointment extends Model
         'end_time',
         'service_id',
         'notes',
-
+        'completed_at',
+        'prescription',
     ];
 
     public function patient()

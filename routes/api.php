@@ -32,13 +32,12 @@ Route::middleware('auth.session')->group(function() {
         Route::post('/appointment/get/{id}', 'show');
         Route::post('/appointment/accept/{id}', 'accept');
         Route::post('/appointment/cancel/{id}', 'cancel');
+        Route::post('/appointment/addPhoto/{id}', 'addPhoto');
     });
 
     Route::controller(ServiceController::class)->group(function () {
         Route::post('/services', 'store');
         Route::post('/service/get/{id}', 'show');
-       // Route::post('/service/delete/{id}', 'delete');
         Route::post('/service/update/{id}', 'update');
-    
     });
 });

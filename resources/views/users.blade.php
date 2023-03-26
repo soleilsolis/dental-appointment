@@ -8,7 +8,7 @@
 
 
 @section('main')
-    <table class="ui large celled selectable stackable table max-w-[1400px]">
+    <table class="ui celled selectable stackable table max-w-[1400px]">
         <thead onclick="$('#appointment-modal').modal('show')">
             <th>ID</th>
             <th>Username</th>
@@ -60,7 +60,7 @@
             </div>
         </div>
         <div class="actions">
-            <button class="ui large button" onclick="$('#appointment-modal').modal('hide')">Close</button>
+            <button class="ui button" onclick="$('#appointment-modal').modal('hide')">Close</button>
         </div>
     </div>
 @endsection

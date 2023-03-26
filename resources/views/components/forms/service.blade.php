@@ -1,4 +1,4 @@
-<form id="service-form" class="ui large form submit-form" 
+<form id="service-form" class="ui form submit-form" 
     data-method="POST" 
     data-action="" 
     data-callback="reload"

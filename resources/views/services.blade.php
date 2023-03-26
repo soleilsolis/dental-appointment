@@ -10,7 +10,7 @@
 @section('main')
 
     <button class="ui blue button" onclick="newService()">New Service</button>
-    <table class="ui large celled selectable stackable table max-w-[1400px]">
+    <table class="ui celled selectable stackable table max-w-[1400px]">
         <thead>
             <th>ID</th>
             <th>Name</th>
@@ -66,7 +66,6 @@
 
 
             $('#service-modal').modal('show');
-
         }
 
         function newService() {

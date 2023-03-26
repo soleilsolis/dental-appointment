@@ -1,4 +1,4 @@
-<form class="ui large form submit-form" 
+<form class="ui form submit-form" 
     data-method="POST" 
     data-action="/register" 
     data-api="no"
@@ -11,5 +11,5 @@
     <x-field id="password" name="password" type="password" label="Password" ></x-field>
     <x-field id="password.confirmation" name="password.confirmation" type="password" label="Confirm Password" ></x-field>
 
-    <button class="ui circular fluid big blue button mt-12" type="submit">Register</button>
+    <x-button class="blue" type="submit">Register</x-button>
 </form>

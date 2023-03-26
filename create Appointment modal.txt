@@ -1,7 +1,8 @@
 
 X view appointment modal 
-
 X accept / cancel appointment modal with notes
+
+dentist page 
 
 admin create dentist account 
 archive / delete dentist

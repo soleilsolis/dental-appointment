@@ -1,22 +1,20 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Modals;
 
 use Illuminate\View\Component;
 
-class Field extends Component
+class AppointmentActionsModal extends Component
 {
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct(
-
-        public int $required = 0,
-
-    )
-    {}
+    public function __construct()
+    {
+        //
+    }
 
     /**
      * Get the view / contents that represent the component.
@@ -25,6 +23,6 @@ class Field extends Component
      */
     public function render()
     {
-        return view('components.field');
+        return view('components.modals.appointment-actions-modal');
     }
 }

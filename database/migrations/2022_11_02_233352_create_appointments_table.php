@@ -22,12 +22,13 @@ return new class extends Migration
             $table->foreign('dentist_user_id')->references('id')->on('users');
             $table->foreign('service_id')->references('id')->on('services')->onDelete('set null');
             $table->longText('notes')->nullable();
-            $table->date('date');
-            $table->time('start_time');
-            $table->time('end_time');
+            $table->longText('prescription')->nullable();
+            $table->date('date')->nullable();
+            $table->time('start_time')->nullable();
+            $table->time('end_time')->nullable();
             $table->timestamp('accepted_at')->nullable();
             $table->timestamp('cancelled_at')->nullable();
-            
+            $table->timestamp('completed_at')->nullable();
             $table->timestamps();
         });
     }

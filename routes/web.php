@@ -30,6 +30,12 @@ Route::middleware('guest')->group(function() {
     Route::get('/login', fn() => view('login'))->name('login');
     Route::get('/register', fn() => view('register'))->name('register');
     Route::get('/forgot', fn() => view('forgot-password'));
+    Route::get('/test', fn() => view('test'));
+
+    Route::get('/reset-password/{token}', fn($token) => view('reset-password', [
+        'token' => $token,
+        'email' => $_GET['email']
+    ]));
 
 });
 
@@ -40,6 +46,8 @@ Route::middleware('auth')->group(function() {
         Route::get('/home', fn() => view('home'))->name('home');
         Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments');
         Route::get('/settings', fn() => view('settings'))->name('settings');
+        Route::get('/appointments/print',  [AppointmentController::class, 'print'])->name('print');
+        Route::get('/appointments/list',  [AppointmentController::class, 'list'])->name('list');
     });
 
     Route::middleware('admin')->group(function() {

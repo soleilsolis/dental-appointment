@@ -5,8 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Appointment;
 use App\Http\Requests\StoreAppointmentRequest;
 use App\Http\Requests\UpdateAppointmentRequest;
+use App\Http\Requests\UploadPhotoRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+
+use Faker\Generator as Faker;
+use PDF;
 
 class AppointmentController extends Controller
 {
@@ -21,6 +26,13 @@ class AppointmentController extends Controller
                     ? Appointment::all()
                     : Appointment::where('user_id', '=', Auth::id())
                         ->get();
+
+        foreach($appointments as $appointment){
+            $appointment->date = Carbon::parse($appointment->date)->format('F d, Y');
+            $appointment->start_time = Carbon::parse($appointment->start_time)->format('g:i A');
+
+            $appointment->end_time = Carbon::parse($appointment->end_time)->format('g:i A');
+        }
                         
         return view('appointments',compact('appointments') );
     }
@@ -45,11 +57,9 @@ class AppointmentController extends Controller
     {        
         $data = Appointment::create([
             'user_id' => Auth::id(),
-            'date' => $request->date,
-            'start_time' => $request->start_time,
-            'end_time' => $request->end_time,
             'service_id' => $request->service_id,
             'notes' => $request->notes,
+            
         ]);
 
         return response()->json(compact('data'));
@@ -66,6 +76,9 @@ class AppointmentController extends Controller
         $data = Appointment::findOrFail($request->id);
         $data->service = $data->service;
         $data->patient = $data->patient;
+        $data->date = Carbon::parse($appointment->date)->format('F d, Y');
+        $data->start_time = Carbon::parse($appointment->start_time)->format('g:i A');
+        $data->end_time = Carbon::parse($appointment->end_time)->format('g:i A');
 
         return response()->json(compact('data'));
 
@@ -91,18 +104,73 @@ class AppointmentController extends Controller
      * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Http\Response
      */
-    public function accept(Request $request)
+    public function addPhoto(UploadPhotoRequest $request, Faker $faker) {
+        $appointment = Appointment::findOrFail($request->id);
+        
+        $path = [];
+
+
+
+        foreach ($request->file('pictures') as $picture) {
+            $extension = $picture->extension();
+            $filename = "{$faker->uuid()}.{$extension}";
+            $picture->move(storage_path() . '/app/public/pictures', $filename);
+
+            $path[] =env('APP_URL') . '/storage/pictures/' . $filename;
+        }
+        
+        $appointment->pictures = json_encode($path, true);
+        $appointment->save();
+
+        return response()->json(compact('data'));
+
+    }
+
+    public function list(){
+        $appointment = Appointment::all();
+        return view('test', compact('appointment'));
+      }
+
+    public function print() {
+        $data = Appointment::all();
+
+        dd($data->toArray());
+        // share data to view
+        view()->share('appointment',$data->toArray());
+        $pdf = PDF::loadView('test', $data->toArray());
+        // download PDF file with download method
+        return $pdf->download('pdf_file.pdf');
+    }
+
+    public function accept(UpdateAppointmentRequest $request)
     {
         $appointment = Appointment::findOrFail($request->id);
 
-        $appointment->accepted_at = $appointment->accepted_at ?? now();
+        $conflictAppointment = Appointment::where([
+            ['date', '=', $request->date],
+            ['start_time', '<=', $request->start_time],
+            ['end_time', '>=', $request->end_time],
+            ['dentist_user_id', '=', Auth::id()]
+        ])->first();
 
+        if ($conflictAppointment) {
+            return response()->json([
+                'errors' => [
+                    'date' => "A datetime conflict was found. Choose another date or time."
+                ]
+            ], 422);
+        }
+
+        $appointment->accepted_at = $appointment->accepted_at ?? now();
+        $appointment->cancelled_at = NULL;
+        $appointment->date = $request->date;
+        $appointment->start_time = $request->start_time;
+        $appointment->end_time = $request->end_time;
         $appointment->save();
 
         $data = $appointment;
 
         return response()->json(compact('data'));
-
     }
 
     public function cancel(Request $request)
@@ -115,7 +183,6 @@ class AppointmentController extends Controller
         $data = $appointment;
 
         return response()->json(compact('data'));
-
     }
     
 

@@ -1,4 +1,4 @@
-<form class="ui large form submit-form" 
+<form class="ui form submit-form" 
     data-method="POST" 
     data-action="/user/setup" 
     data-callback="reload"

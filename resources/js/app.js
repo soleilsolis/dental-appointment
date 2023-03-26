@@ -83,6 +83,6 @@ document.querySelectorAll(".submit-form").forEach(
 document.querySelectorAll(".field").forEach((element) => {
     element.addEventListener("input", async function () {
         this.classList.remove("error");
-        this.lastElementChild.innerHTML = "";
+        this.lastElementChild.innerHTML = "&nbsp;";
     });
 });

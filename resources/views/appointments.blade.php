@@ -4,27 +4,26 @@
 
 
 @section('main')
-    <table class="ui large celled selectable stackable table max-w-[1400px]">
+    <table class="ui selectable stackable table max-w-[1400px]">
         <thead>
             <th></th>
             <th>Name</th>
             <th>Service</th>
             <th>Appointment Date</th>
             <th class="right aligned">Dentist</th>
-
             <th class="collapsing right aligned">Status</th>
         </thead>
-        <tbody>
 
+        <tbody>
             @foreach ($appointments as $appointment)
                 <tr onclick="getAppointment({{ $appointment->id }})">
                     <td>{{ $appointment->id }}</td>
                     <td>{{ $appointment->patient->last_name }}, {{ $appointment->patient->first_name }}</td>
                     <td>{{ $appointment->service->name }}</td>
 
-                    <td>{{ \Carbon\Carbon::parse($appointment->date)->format('F d, Y') }}
-                        : {{ \Carbon\Carbon::parse($appointment->start_time)->format('g:i A') }}
-                        - {{ \Carbon\Carbon::parse($appointment->end_time)->format('g:i A') }}
+                    <td>{{ $appointment->date }}
+                        : {{ $appointment->start_time }}
+                        - {{ $appointment->end_time }}
                     </td>
                     <td class="right aligned">
                         {{ $appointment->dentist ? "{$appointment->dentist->last_name}, {$appointment->dentist->first_name}" : 'TBA' }}
@@ -34,6 +33,8 @@
                             <span class="ui green label">Accepted</span>
                         @elseif($appointment->cancelled_at)
                             <span class="ui red label">Cancelled</span>
+                        @elseif($appointment->completed_at)
+                            <span class="ui label">Complete</span>
                         @else
                             <span class="ui yellow label">Pending</span>
                         @endif
@@ -50,61 +51,12 @@
         <button type="submit"></button>
     </form>
 
-    <div id="appointment-modal" class="ui small modal">
-        <div id="appointment-id" class="header"></div>
-        <div class="content">
-            <div class="grid grid-cols-3 portrait:grid-cols-1 gap-4">
-                <div>
-                    <img src="https://i.picsum.photos/id/237/200/300.jpg?hmac=TmmQSbShHz9CdQm0NkEjx1Dyh_Y984R9LpNrpvH2D_U"
-                        alt="" class="ui large image">
-                </div>
-                <div class="col-span-2">
-                    <div>
-                        <div class="font-medium text-xl">Patient: </div>
-                        <span id="appointment-patient" class="font-semibold text-3xl"></span>
-                    </div>
-                    <div class="my-4">
-                        <div class="font-medium text-xl">Age: </div>
-                        <span id="appointment-age" class="font-semibold text-3xl">45 years old</span>
-                    </div>
-                    <div class="my-4">
-                        <div class="font-medium text-xl">Service: </div>
-                        <span id="appointment-service" class="font-semibold text-3xl">Tooth Extraction </span>
-                    </div>
-                    <div class="my-4">
-                        <div class="font-medium text-xl">Notes: </div>
-                        <span id="appointment-notes" class="text-lg">Need extraction for a week now, but too shy to ask for
-                            help. </span>
-                    </div>
-                </div>
+    <x-modals.upload-photo></x-modals.upload-photo>
+    <x-modals.appointment></x-modals.appointment>
 
-            </div>
-        </div>
-        <div class="actions">
-            <button class="ui large button" onclick="$('#appointment-modal').modal('hide')">Close</button>
-            @if (\Illuminate\Support\Facades\Auth::user()->type === 'dentist')
-                <button id="cancel" class="ui large red button appointment-set-status" data-action=""
-                    data-status="cancel">Cancel</button>
-                <button id="accept" class="ui large green button appointment-set-status" data-action=""
-                    data-status="accept">Accept</button>
-            @endif
-        </div>
-    </div>
-
-    <div id="appointment-actions" class="ui tiny modal">
-        <div class="header">
-            <span id="appointment-action"></span>
-            Appointment
-        </div>
-        <div class="content">
-            Are you sure?
-        </div>
-        <form id="set-status" class="actions submit-form" data-action="" data-method="POST" data-callback="reload">
-            @csrf
-            <button class="ui large red button" type="submit">Yes</button>
-
-        </form>
-    </div>
+    @if (\Illuminate\Support\Facades\Auth::user()->type === 'dentist')
+        <x-modals.appointment-actions-modal></x-modals.appointment-actions-modal>
+    @endif
 @endsection
 
 @section('scripts')
@@ -118,38 +70,86 @@
         function printAppointment(result) {
             const appointment = result.data;
 
-            document.querySelector('#appointment-id').innerHTML = appointment.id;
+            document.getElementById('appointment-header').innerHTML = `${appointment.id} - ${appointment.patient.last_name}, ${appointment.patient.first_name}`;
+            document.getElementById('appointment-patient').innerHTML =
+                `${appointment.patient.last_name}, ${appointment.patient.first_name}`;
+            document.getElementById('appointment-service').innerHTML = appointment.service.name;
+            document.getElementById('appointment-notes').innerHTML = appointment.notes;
+            document.getElementById('appointment-schedule').innerHTML =
+                `${appointment.date} @ ${appointment.start_time} - ${appointment.end_time}`;
 
-            document.querySelector('#appointment-patient').innerHTML =
-            `${appointment.patient.last_name}, ${appointment.patient.first_name}`;
-            document.querySelector('#appointment-service').innerHTML = appointment.service.name;
-            document.querySelector('#appointment-notes').innerHTML = appointment.notes;
+            @if (\Illuminate\Support\Facades\Auth::user()->type === 'dentist')
+                const acceptButton = document.getElementById('accept');
+                const cancelButton = document.getElementById('cancel');
+                const rescheduleButton = document.getElementById('reschedule');
 
-            document.querySelector('#cancel').dataset.action = "/appointment/cancel/" + appointment.id;
-            document.querySelector('#accept').dataset.action = "/appointment/accept/" + appointment.id;
+                acceptButton.classList.add("hidden");
+                cancelButton.classList.add("hidden");
+                rescheduleButton.classList.add("hidden");
 
-            $('#appointment-modal').modal('show');
+                acceptButton.dataset.action = "/appointment/accept/" + appointment.id;
+                cancelButton.dataset.action = "/appointment/cancel/" + appointment.id;
 
-        }
-        
-        [...document.querySelectorAll('.appointment-set-status')].forEach(element => {
-
-            
-            element.addEventListener('click', event => {
-
-
-                if (element.dataset.status === 'cancel') {
-                    document.querySelector('#appointment-action').innerHTML = 'Cancel';
-                } else {
-                    document.querySelector('#appointment-action').innerHTML = 'Accept';
+                if (!acceptButton.accepted_at && !appointment.cancelled_at) {
+                    acceptButton.classList.remove("hidden");
+                    cancelButton.classList.remove("hidden");
                 }
 
+                if (appointment.accepted_at && appointment.cancelled_at || appointment.cancelled_at) {
+                    rescheduleButton.dataset.action = "/appointment/accept/" + appointment.id;
+                    rescheduleButton.classList.remove("hidden");
+                }
+
+                if (appointment.completed_at) {
+                    acceptButton.classList.add("hidden");
+                    cancelButton.classList.add("hidden");
+                    rescheduleButton.classList.add("hidden");
+                }
+            @endif
+            const photo = document.getElementById('photo-button');
+
+            photo.addEventListener('click', function() {
+                document.getElementById('upload-photo-form').dataset.action = "/appointment/addPhoto/" +
+                    appointment.id;
+                $('#upload-photos').modal('show');
+            });
+            let pictures = JSON.parse(appointment.pictures);
+
+
+            if (pictures) {
+                [...pictures].forEach(picture => {
+                    const img = document.createElement('img');
+                    img.classList.add("ui", "rounded", "small", "image");
+                    img.setAttribute('src', picture);
+
+                    document.getElementById('appointment-pictures').appendChild(img);
+                });
+
+            }
+
+
+            $('#appointment-modal').modal('setting', 'closable', false).modal('show');
+
+
+        }
+
+
+        [...document.querySelectorAll('.appointment-set-status')].forEach(element => {
+            element.addEventListener('click', event => {
+                const appointmentAction = document.querySelector('#appointment-action');
+
+                appointmentAction.innerHTML = element.dataset.status === 'cancel' ? 'Cancel' : 'Accept';
                 document.querySelector('#set-status').dataset.action = element.dataset.action;
 
-                $('#appointment-actions').modal('show');
 
+                [...document.querySelectorAll('.date-fields')].forEach(field => {
+                    element.dataset.status == 'accept' || element.dataset.status == 'reschedule' ?
+                        field.classList.remove('hidden') : field.classList.add('hidden');
+                });
+
+
+                $('#appointment-actions-modal').modal('show');
             });
-
         });
     </script>
 @endsection
