@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(\App\Models\User::class);
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreignIdFor(\App\Models\ToothType::class);
-            $table->foreign('condition_id')->references('id')->on('condition');
+            $table->foreign('condition_id')->references('id')->on('conditions');
             $table->foreignIdFor(\App\Models\Condition::class);
             $table->foreign('tooth_type_id')->references('id')->on('tooth_types');
         });

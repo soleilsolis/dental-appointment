@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ToothChartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,5 +41,9 @@ Route::middleware('auth.session')->group(function() {
         Route::post('/services', 'store');
         Route::post('/service/get/{id}', 'show');
         Route::post('/service/update/{id}', 'update');
+    });
+
+    Route::controller(ToothChartController::class)->group(function () {
+        Route::post('/toothchart/add');
     });
 });
