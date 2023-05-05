@@ -1,5 +1,5 @@
 
-<form class="ui form">
+<form class="ui large form">
     <div class="field">
         
     </div>

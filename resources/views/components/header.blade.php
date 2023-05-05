@@ -4,7 +4,7 @@
     </div>
 
     <div class="fitted item portrait:hidden">
-        <div class="font-bold text-4xl portrait:text-2xl">@yield('title')</div>
+        <div class="font-semibold text-4xl portrait:text-2xl">@yield('title')</div>
     </div>
 
     <div class="right menu">

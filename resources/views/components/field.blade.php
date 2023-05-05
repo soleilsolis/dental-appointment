@@ -1,5 +1,5 @@
 <div class="field {{ $required ? 'required' : '' }} {{ $attributes->get('data-fieldclass') ?? '' }}" >
-    <label for="{{ $attributes->get('id') ?? '' }}" class="text-[#7F8FA4]">{{ $attributes->get('label') ?? '' }}</label>
+    <label for="{{ $attributes->get('id') ?? '' }}" class="text-[#7F8FA4] font-semibold">{{ $attributes->get('label') ?? '' }}</label>
     
     @if ($attributes->get('type') === 'dropdown')
         <select class="ui dropdown" {{ $attributes }}>

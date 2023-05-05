@@ -14,7 +14,7 @@ class UpdateServiceRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->type === 'admin';
+        return Auth::user()->type === 'dentist';
     }
 
     /**

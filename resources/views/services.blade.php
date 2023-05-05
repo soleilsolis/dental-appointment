@@ -9,23 +9,22 @@
 
 @section('main')
 
-    <button class="ui bluerounded button" onclick="newService()">New Service</button>
-    <table class="ui celled selectable stackable table max-w-[1400px]">
+    <x-button class="blue w-auto" onclick="newService()"><i class="plus icon"></i> New Service</x-button>
+
+    <table class="ui large padded celled selectable stackable table max-w-[1400px] border-0 shadow-md">
         <thead>
-            <th>ID</th>
+            <th class="collapsing"></th>
             <th>Name</th>
             <th>Price</th>
         </thead>
         <tbody>
-
             @foreach (Service::all() as $service)
-            <tr onclick="getService({{ $service->id }})">
-                <td>{{ $service->id }}</td>
-                <td>{{ $service->name }}</td>
-                <td>{{ $service->price }}</td>
-            </tr>
+                <tr class="collapsing" onclick="getService({{ $service->id }})">
+                    <td>{{ $service->id }}</td>
+                    <td>{{ $service->name }}</td>
+                    <td>{{ $service->price }}</td>
+                </tr>
             @endforeach
-           
         </tbody>
     </table>
 

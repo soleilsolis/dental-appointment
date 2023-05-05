@@ -101,6 +101,5 @@ class ServiceController extends Controller
         $data->delete();
 
         return response()->json(compact('data'));
-
     }
 }

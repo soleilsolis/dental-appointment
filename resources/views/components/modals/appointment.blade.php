@@ -42,15 +42,15 @@
         </div>
     </div>
     <div class="actions">
-        <button class="uirounded button" onclick="$('#appointment-modal').modal('hide')">Close</button>
+        <button class="ui button" onclick="$('#appointment-modal').modal('hide')">Close</button>
        
         @if (\Illuminate\Support\Facades\Auth::user()->type === 'dentist')
-            <button id="accept" class="ui greenrounded button appointment-set-status hidden" data-action="" data-status="accept">Accept</button>
-            <button id="cancel" class="ui redrounded button appointment-set-status hidden" data-action="" data-status="cancel">Cancel</button>
-            <button id="reschedule" class="ui bluerounded button appointment-set-status hidden" data-action="" data-status="reschedule">Reschedule</button>
+            <button id="accept" class="ui green button appointment-set-status hidden" data-action="" data-status="accept">Accept</button>
+            <button id="cancel" class="ui red button appointment-set-status hidden" data-action="" data-status="cancel">Cancel</button>
+            <button id="reschedule" class="ui blue button appointment-set-status hidden" data-action="" data-status="reschedule">Reschedule</button>
 
         @endif
-        <button id="photo-button" class="ui tealrounded button" data-action="" data-status="photo-button">Upload Photos</button>
+        <button id="photo-button" class="ui teal button" data-action="" data-status="photo-button">Upload Photos</button>
 
     </div>
 </div>

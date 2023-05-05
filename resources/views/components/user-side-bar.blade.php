@@ -17,7 +17,7 @@
     <div href="" class="item">
         <form action="/logout" method="POST">
             @csrf
-            <button class="ui redrounded button" type="submit">
+            <button class="ui red button" type="submit">
                 <i class="power off icon"></i>
      
                 Log Out

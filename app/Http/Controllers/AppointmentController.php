@@ -59,8 +59,10 @@ class AppointmentController extends Controller
             'user_id' => Auth::id(),
             'service_id' => $request->service_id,
             'notes' => $request->notes,
+            'prescription' => ""
             
         ]);
+        
 
         return response()->json(compact('data'));
     }
@@ -107,16 +109,14 @@ class AppointmentController extends Controller
     public function addPhoto(UploadPhotoRequest $request, Faker $faker) {
         $appointment = Appointment::findOrFail($request->id);
         
-        $path = [];
-
-
+        $path = json_decode($appointment->pictures, true);
 
         foreach ($request->file('pictures') as $picture) {
             $extension = $picture->extension();
             $filename = "{$faker->uuid()}.{$extension}";
             $picture->move(storage_path() . '/app/public/pictures', $filename);
 
-            $path[] =env('APP_URL') . '/storage/pictures/' . $filename;
+            $path[] = env('APP_URL') . '/storage/pictures/' . $filename;
         }
         
         $appointment->pictures = json_encode($path, true);

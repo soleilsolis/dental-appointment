@@ -16,13 +16,14 @@ return new class extends Migration
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(\App\Models\User::class);
-            $table->foreignIdFor(\App\Models\Service::class)->nullable();
-            $table->foreignId('dentist_user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('dentist_user_id')->references('id')->on('users');
+            $table->foreignIdFor(\App\Models\Service::class)->nullable();
             $table->foreign('service_id')->references('id')->on('services')->onDelete('set null');
+            $table->foreignId('dentist_user_id')->nullable();
+            $table->foreign('dentist_user_id')->references('id')->on('users');
             $table->longText('notes')->nullable();
             $table->longText('prescription')->nullable();
+            $table->longText('pictures')->default("[]");
             $table->date('date')->nullable();
             $table->time('start_time')->nullable();
             $table->time('end_time')->nullable();

@@ -17,6 +17,7 @@
             We have emailed your password reset link!
         </div>
     </div>
+    
 @endsection
 
 @section('scripts')

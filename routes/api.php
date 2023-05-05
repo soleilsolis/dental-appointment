@@ -24,7 +24,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware('auth.session')->group(function() {
     Route::controller(UserController::class)->group(function () {
         Route::post('/user/setup', 'setup');
-
+        Route::post('/user/new', 'store');
+        Route::middleware('dentist')->post('/user/update', 'update');
     });
 
     Route::controller(AppointmentController::class)->group(function () {

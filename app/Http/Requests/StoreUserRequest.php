@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Support\Facades\Auth;
 class StoreUserRequest extends FormRequest
 {
     /**
@@ -13,7 +13,7 @@ class StoreUserRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return Auth::user()->type === 'dentist';
     }
 
     /**
@@ -27,8 +27,11 @@ class StoreUserRequest extends FormRequest
             'name' =>  'required|unique:users',
             'email' =>  'required|email:rfc,dns',
             'password' => 'required|min:8',
-            'first_name' => 'required',
-            'last_name' => 'required',
+            'first_name' => 'required|alpha_dash',
+            'last_name' => 'required|alpha_dash',
+            'birthdate' => 'required',
+            'type' => 'required',
+            'birthdate' => 'required',
         ];
     }
 }

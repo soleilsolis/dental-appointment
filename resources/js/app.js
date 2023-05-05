@@ -7,7 +7,7 @@ document.querySelectorAll(".submit-form").forEach(
         (form.onsubmit = async (e) => {
             e.preventDefault();
 
-            let url = "api";
+            let url = "/api";
             //let url = "http://localhost:8080/api";
 
             if(form.dataset.api === 'no') {

@@ -6,9 +6,11 @@
 @section('main')
 
 @if (\Illuminate\Support\Facades\Auth::user()->type === 'dentist')
-<a class="ui blue button" href="/appointments/print">Export to PDF</a>
+
+<x-button class="blue w-auto" onclick="location.href = '/appointments/print' "><i class="file icon"></i> Export to PDF</x-button>
+
 @endif
-    <table class="ui selectable stackable table max-w-[1400px]">
+    <table class="ui large padded celled selectable stackable table max-w-[1400px] border-0 shadow-md">
         <thead>
             <th></th>
             <th>Name</th>
@@ -25,9 +27,9 @@
                     <td>{{ $appointment->patient->last_name }}, {{ $appointment->patient->first_name }}</td>
                     <td>{{ $appointment->service->name }}</td>
 
-                    <td>{{ $appointment->date }}
-                        : {{ $appointment->start_time }}
-                        - {{ $appointment->end_time }}
+                    <td>{{ $appointment->date ?? '' }}
+                        : {{ $appointment->start_time ?? ''}}
+                        - {{ $appointment->end_time ?? '' }}
                     </td>
                     <td class="right aligned">
                         {{ $appointment->dentist ? "{$appointment->dentist->last_name}, {$appointment->dentist->first_name}" : 'TBA' }}
@@ -110,6 +112,7 @@
                     rescheduleButton.classList.add("hidden");
                 }
             @endif
+
             const photo = document.getElementById('photo-button');
 
             photo.addEventListener('click', function() {
@@ -117,16 +120,22 @@
                     appointment.id;
                 $('#upload-photos').modal('show');
             });
-            let pictures = JSON.parse(appointment.pictures);
 
+            const pictureContainer = document.getElementById('appointment-pictures');
 
-            if (pictures) {
+            while (pictureContainer.firstChild) {
+                pictureContainer.removeChild(pictureContainer.firstChild);
+                }
+
+            if (appointment.pictures) {
+                let pictures = JSON.parse(appointment.pictures);
+
                 [...pictures].forEach(picture => {
                     const img = document.createElement('img');
                     img.classList.add("ui", "rounded", "small", "image");
                     img.setAttribute('src', picture);
 
-                    document.getElementById('appointment-pictures').appendChild(img);
+                    pictureContainer.appendChild(img);
                 });
 
             }
@@ -150,7 +159,6 @@
                     element.dataset.status == 'accept' || element.dataset.status == 'reschedule' ?
                         field.classList.remove('hidden') : field.classList.add('hidden');
                 });
-
 
                 $('#appointment-actions-modal').modal('show');
             });

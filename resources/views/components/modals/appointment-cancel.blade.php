@@ -14,7 +14,7 @@
             </div>
             
             <div class="field">
-                <button class="ui greenrounded button" type="submit">Yes</button>
+                <button class="ui green button" type="submit">Yes</button>
             </div>
         </form>
     </div>

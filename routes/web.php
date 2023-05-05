@@ -2,8 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ServiceController;
@@ -37,7 +35,7 @@ Route::middleware('guest')->group(function() {
         'email' => $_GET['email']
     ]));
 
-});
+}); 
 
 Route::middleware('auth')->group(function() {
     Route::get('setup', fn() => view('setup'))->middleware('not.setup');
@@ -48,10 +46,21 @@ Route::middleware('auth')->group(function() {
         Route::get('/settings', fn() => view('settings'))->name('settings');
         Route::get('/appointments/print',  [AppointmentController::class, 'print'])->name('print');
         Route::get('/appointments/list',  [AppointmentController::class, 'list'])->name('list');
+
+        Route::get('/appointment/{id}', function ($id){
+            $appointment = Appointment::find($id);
+            return view('appointment-view', compact('appointment'));
+        })->where('id', '[0-9]+');
     });
 
-    Route::middleware('admin')->group(function() {
+    Route::middleware('dentist')->group(function() {
         Route::get('/services', [ServiceController::class, 'index'])->name('services');
         Route::get('/users', fn() => view('users', [UserController::class, 'index']))->name('users');
+        Route::get('/user/new', fn() => view('user-new'))->name('user-new');
+        
+        Route::get('/user/{id}', function($id){
+            $user = User::find($id);
+            return view('user-view', compact('user'));
+        })->name('user')->where('id', '[0-9]+');
     });
 });

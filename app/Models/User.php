@@ -22,7 +22,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'type'
+        'type',
+        'first_name',
+        'last_name',
+        'birthdate',
     ];
 
     /**
@@ -56,5 +59,10 @@ class User extends Authenticatable
     public function appointments()
     {
         return $this->hasMany(Appointment::class);
+    }
+
+    public function toothChart()
+    {
+        return $this->hasMany(toothChart::class);
     }
 }

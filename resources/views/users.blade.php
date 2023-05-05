@@ -8,9 +8,10 @@
 
 
 @section('main')
-    <table class="ui celled selectable stackable table max-w-[1400px]">
+    <x-button class="blue w-auto" onclick="location.href = '/user/new'"><i class="plus icon"></i> New User</x-button>
+    <table class="ui large padded celled selectable stackable table max-w-[1400px] border-0 shadow-md">
         <thead onclick="$('#appointment-modal').modal('show')">
-            <th>ID</th>
+            <th></th>
             <th>Username</th>
             <th>Type</th>
             <th class="collapsing right aligned">Status</th>
@@ -18,8 +19,8 @@
         <tbody>
 
             @foreach (User::all() as $user)
-            <tr onclick="$('#appointment-modal').modal('show')">
-                <td>{{ $user->id }}</td>
+            <tr onclick="location.href = '/user/{{ $user->id }}'">
+                <td class="collapsing">{{ $user->id }}</td>
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->type }}</td>
                 <td class="collapsing right aligned">
@@ -31,36 +32,5 @@
         </tbody>
     </table>
 
-    <div id="appointment-modal" class="ui small modal">
-        <div class="header">Appointment 59</div>
-        <div class="content">
-            <div class="grid grid-cols-3 portrait:grid-cols-1 gap-4">
-                <div> 
-                    <img src="https://i.picsum.photos/id/237/200/300.jpg?hmac=TmmQSbShHz9CdQm0NkEjx1Dyh_Y984R9LpNrpvH2D_U" alt="" class="ui rounded large image">
-                </div>
-                <div class="col-span-2">
-                    <div>
-                        <div class="font-medium text-xl">Patient: </div>
-                        <span class="font-semibold text-3xl">Dez Fafara</span>
-                    </div>
-                    <div class="my-4">
-                        <div class="font-medium text-xl">Age: </div>
-                        <span class="font-semibold text-3xl">45 years old</span>
-                    </div>
-                    <div class="my-4">
-                        <div class="font-medium text-xl">Service: </div>
-                        <span class="font-semibold text-3xl">Tooth Extraction </span>
-                    </div>
-                    <div class="my-4">
-                        <div class="font-medium text-xl">Notes: </div>
-                        <span class="text-lg">Need extraction for a week now, but too shy to ask for help. </span>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-        <div class="actions">
-            <button class="uirounded button" onclick="$('#appointment-modal').modal('hide')">Close</button>
-        </div>
-    </div>
+
 @endsection
