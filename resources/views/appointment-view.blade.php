@@ -9,24 +9,49 @@
 
 @section('main')
    <div class="ui secondary menu">
-        <button class="ui large blue button appointment-set-status" data-action="/appointment/accept/{{ $appointment->id }}" data-status="accept">
-            Accept
-        </button>
-        <button class="ui large inverted secondary button appointment-set-status" data-action="/appointment/reschedule/{{ $appointment->id }}" data-status="reschedule">    
-            Reschedule
-        </button>
-        <button class="ui large inverted red button appointment-set-status" data-action="/appointment/cancel/{{ $appointment->id }}" data-status="cancel">    
-            Cancel
-        </button>
-
-        <button class="ui large inverted secondary button appointment-set-status" data-action="/appointment/complete/{{ $appointment->id }}" data-status="complete">    
-            Complete
-        </button>
-
+        <div class="item">
+            @if ($appointment->accepted_at && !$appointment->cancelled_at)
+            <span class="ui green button">Accepted</span>
+        @elseif($appointment->cancelled_at)
+            <span class="ui red button">Cancelled</span>
+        @elseif($appointment->completed_at)
+            <span class="ui button">Complete</span>
+        @else
+            <span class="ui yellow button">Pending</span>
+        @endif
+        </div>
         <div class="right menu">
-            sdf
+            <div class="ui dropdown">
+                <div class="text"><i class="wrench icon"></i> Options</div>
+                <i class="dropdown icon"></i>
+                <div class="menu">
+
+                  <div class="item appointment-set-status" data-action="/appointment/accept/{{ $appointment->id }}" data-status="accept">
+                    <i class="check icon"></i>
+                    Accept
+                  </div>
+
+                  <div class="item appointment-set-status" data-action="/appointment/accept/{{ $appointment->id }}" data-status="reschedule">
+                    <i class="file icon"></i>
+                    Reschedule
+                  </div>
+
+                  <div class="item appointment-set-status" data-action="/appointment/cancel/{{ $appointment->id }}" data-status="cancel">
+                    <i class="delete icon"></i>
+                    Cancel
+                  </div>
+
+                  <div class="item appointment-set-status" data-action="/appointment/complete/{{ $appointment->id }}" data-status="complete">
+                    <i class="star icon"></i>
+                    Complete
+                  </div>
+              
+                </div>
+              </div>
         </div>
    </div>
+
+   
 
     <div class="mt-10">
         <x-segment>
@@ -100,8 +125,7 @@
                 $('#appointment-actions-modal').modal('show');
             });
 
-            document.getElementById('upload-photo-form').dataset.action = "/appointment/addPhoto/" +
-                    appointment.id;
+            document.getElementById('upload-photo-form').dataset.action = "/appointment/addPhoto/"+{{ $appointment->id }};
         });
     </script>
 @endsection

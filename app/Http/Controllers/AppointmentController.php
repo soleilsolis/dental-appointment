@@ -188,6 +188,18 @@ class AppointmentController extends Controller
 
         return response()->json(compact('data'));
     }
+
+    public function complete(Request $request)
+    {
+        $appointment = Appointment::findOrFail($request->id);
+        $appointment->completed_at =  $appointment->completed_at ?? now();
+
+        $appointment->save();
+
+        $data = $appointment;
+
+        return response()->json(compact('data'));
+    }
     
 
     /**

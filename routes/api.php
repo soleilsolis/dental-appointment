@@ -34,6 +34,7 @@ Route::middleware('auth.session')->group(function() {
         Route::post('/appointment/get/{id}', 'show');
         Route::post('/appointment/accept/{id}', 'accept');
         Route::post('/appointment/cancel/{id}', 'cancel');
+        Route::post('/appointment/complete/{id}', 'complete');
         Route::post('/appointment/addPhoto/{id}', 'addPhoto');
     });
 
