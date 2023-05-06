@@ -14,7 +14,7 @@
             <th></th>
             <th>Username</th>
             <th>Type</th>
-            <th class="collapsing right aligned">Status</th>
+  
         </thead>
         <tbody>
 
@@ -23,9 +23,7 @@
                 <td class="collapsing">{{ $user->id }}</td>
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->type }}</td>
-                <td class="collapsing right aligned">
-                    <span class="ui yellow label">Pending</span>
-                </td>
+        
             </tr>
             @endforeach
            
