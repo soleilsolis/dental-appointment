@@ -5,8 +5,8 @@
 >
     @csrf
 
-    <x-field id="first_name" name="first_name" type="text" label="First Name" ></x-field>
-    <x-field id="last_name" name="last_name" type="text" label="Last Name" ></x-field>
+    <x-field id="first_name" name="first_name" label="First Name" type="text" value=""></x-field>
+                        <x-field id="last_name" name="last_name" label="Last Name" type="text" value=""></x-field>
 
     <button class="ui circular fluid big blue button mt-12" type="submit">Register</button>
 </form>
