@@ -22,7 +22,7 @@
 
         <tbody>
             @foreach ($appointments as $appointment)
-                <tr onclick="getAppointment({{ $appointment->id }})">
+                <tr onclick="location.href = '/appointment/1'">
                     <td>{{ $appointment->id }}</td>
                     <td>{{ $appointment->patient->last_name }}, {{ $appointment->patient->first_name }}</td>
                     <td>{{ $appointment->service->name }}</td>
