@@ -14,7 +14,7 @@ class StoreAppointmentRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->type === 'patient';
+        return true;
     }
 
     /**

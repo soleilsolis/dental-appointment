@@ -1,5 +1,4 @@
 @php
-
     use Carbon\Carbon;
 @endphp
 
@@ -34,6 +33,7 @@
                     <button class="ui blue large rounded-full button font-semibold" type="submit">Save</button>
                 </form> 
             </x-segment>
+            <a class="text-green-500 ml-5 cursor-pointer hover:underline transition-ease" onclick="newAppointmentAdmin()">Create Appointment</a>
 
             <a class="text-red-500 ml-5 cursor-pointer hover:underline transition-ease">Delete Account</a>
         </div>
@@ -41,5 +41,11 @@
 @endsection
 
 @section('scripts')
-    <script></script>
+    <script>
+
+        function newAppointmentAdmin(){
+            $('#new_id').val({{ $user->id }});
+            $('#new-appointment').modal('show');
+        }
+    </script>
 @endsection

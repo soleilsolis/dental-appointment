@@ -11,6 +11,10 @@
         @endforeach
     </x-field>
 
+    @if (\Illuminate\Support\Facades\Auth::user()->type === 'dentist')
+        <x-field id="new_id" name="new_id" type='hidden'></x-field>
+    @endif
+
     <x-field id="notes" name="notes" label="Notes" type="textarea" placeholder="Describe Your Situation..."></x-field>
 
     <button class="ui circular big blue button mt-12 float-right" type="submit">Save</button>

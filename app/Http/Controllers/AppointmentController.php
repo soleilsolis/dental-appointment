@@ -56,7 +56,7 @@ class AppointmentController extends Controller
     public function store(StoreAppointmentRequest $request)
     {        
         $data = Appointment::create([
-            'user_id' => Auth::id(),
+            'user_id' => $request->new_id ?? Auth::id(),
             'service_id' => $request->service_id,
             'notes' => $request->notes,
             'prescription' => ""
