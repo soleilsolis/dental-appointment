@@ -1,7 +1,7 @@
 <form class="ui large form submit-form"
     data-method="POST"
     data-action="/appointments"
-    data-callback=" "
+    data-callback="appointments"
     >
     @csrf
 
