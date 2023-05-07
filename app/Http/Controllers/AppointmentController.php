@@ -171,6 +171,7 @@ class AppointmentController extends Controller
             ], 422);
         }
 
+        $appointment->dentist_user_id = Auth::id();
         $appointment->accepted_at = $appointment->accepted_at ?? now();
         $appointment->cancelled_at = NULL;
         $appointment->date = $request->date;
