@@ -45,7 +45,7 @@ Route::middleware('auth')->group(function() {
     Route::get('setup', fn() => view('setup'))->middleware('not.setup');
     
     Route::middleware('setup')->group(function () {
-        Route::get('/home', fn() => view('/appointments'))->name('home');
+        Route::get('/home', fn() => redirect('/appointments'))->name('home');
         Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointments');
         Route::get('/settings', fn() => view('settings'))->name('settings');
         Route::get('/appointments/print',  [AppointmentController::class, 'print'])->name('print');
