@@ -33,13 +33,6 @@ class AppointmentController extends Controller
                     ? Appointment::all()->sortDesc()
                     : Appointment::where('user_id', '=', Auth::id())
                         ->get()->sortDesc();
-
-        foreach($appointments as $appointment){
-            $appointment->date = Carbon::parse($appointment->date)->format('F d, Y');
-            $appointment->start_time = Carbon::parse($appointment->start_time)->format('g:i A');
-
-            $appointment->end_time = Carbon::parse($appointment->end_time)->format('g:i A');
-        }
                         
         return view('appointments',compact('appointments') );
     }

@@ -85,6 +85,7 @@
                         <div class="font-medium text-xl">Service: </div>
                         <span id="appointment-service" class="font-semibold text-2xl">{{ $appointment->service->name }} </span>
                     </div>
+                    
                     @if ($appointment->date)
                         <div>
                             <div class="font-medium text-xl">Schedule: </div>

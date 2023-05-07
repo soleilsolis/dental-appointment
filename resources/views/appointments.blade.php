@@ -28,7 +28,7 @@
                     <td>{{ $appointment->service->name }}</td>
 
                     <td>
-                        @if ($appointment->date !== NULL)
+                        @if ($appointment->date)
                             {{ $appointment->date ?? '' }}
                             : {{ $appointment->start_time ?? ''}}
                             - {{ $appointment->end_time ?? '' }}
