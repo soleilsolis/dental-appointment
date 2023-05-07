@@ -5,11 +5,11 @@
 
 @section('main')
 
-@if (\Illuminate\Support\Facades\Auth::user()->type === 'dentist')
+
 
 <x-button class="blue w-auto" onclick="location.href = '/appointments/print' "><i class="file icon"></i> Export to PDF</x-button>
 
-@endif
+
     <table class="ui large padded celled selectable stackable table max-w-[1400px] border-0 shadow-md">
         <thead>
             <th></th>
