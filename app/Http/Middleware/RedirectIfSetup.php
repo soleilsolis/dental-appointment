@@ -17,6 +17,6 @@ class RedirectIfSetup
      */
     public function handle(Request $request, Closure $next)
     {
-        return Auth::user()->first_name ? redirect('/home') : $next($request);
+        return Auth::user()->first_name ? redirect('/appointments') : $next($request);
     }
 }
