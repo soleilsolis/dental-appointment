@@ -27,9 +27,12 @@
                     <td>{{ $appointment->patient->last_name }}, {{ $appointment->patient->first_name }}</td>
                     <td>{{ $appointment->service->name }}</td>
 
-                    <td>{{ $appointment->date ?? '' }}
-                        : {{ $appointment->start_time ?? ''}}
-                        - {{ $appointment->end_time ?? '' }}
+                    <td>
+                        @if ($appointment->date)
+                            {{ $appointment->date ?? '' }}
+                            : {{ $appointment->start_time ?? ''}}
+                            - {{ $appointment->end_time ?? '' }}
+                        @endif
                     </td>
                     <td class="right aligned">
                         {{ $appointment->dentist ? "{$appointment->dentist->last_name}, {$appointment->dentist->first_name}" : 'TBA' }}

@@ -85,14 +85,16 @@
                         <div class="font-medium text-xl">Service: </div>
                         <span id="appointment-service" class="font-semibold text-2xl">{{ $appointment->service->name }} </span>
                     </div>
-                    <div>
-                        <div class="font-medium text-xl">Schedule: </div>
-                        <span id="appointment-schedule" class="font-semibold text-2xl">
-                            {{ Carbon::parse($appointment->date)->format('M d, Y') }} 
-                            @ {{ Carbon::parse($appointment->start_time)->format('g:i A') }} 
-                            - {{ Carbon::parse($appointment->end_time)->format('g:i A') }} 
-                        </span>
-                    </div>
+                    @if ($appointment->date)
+                        <div>
+                            <div class="font-medium text-xl">Schedule: </div>
+                            <span id="appointment-schedule" class="font-semibold text-2xl">
+                                {{ Carbon::parse($appointment->date)->format('M d, Y') }} 
+                                @ {{ Carbon::parse($appointment->start_time)->format('g:i A') }} 
+                                - {{ Carbon::parse($appointment->end_time)->format('g:i A') }} 
+                            </span>
+                        </div>
+                    @endif
                     <div class="my-4">
                         <div class="font-medium text-xl">Notes: </div>
                         <span id="appointment-notes" class="text-lg">{{ $appointment->notes }}</span>
