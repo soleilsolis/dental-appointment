@@ -24,6 +24,7 @@ class UserController extends Controller
 
         $user->first_name = $request->first_name;
         $user->last_name = $request->last_name;
+        $user->birthdate = $request->birthdate;
 
         $user->save();
 

@@ -28,6 +28,7 @@ class SetupUserRequest extends FormRequest
         return [
             'first_name' => 'required|alpha_dash',
             'last_name' => 'required|alpha_dash',
+            'birthdate' => 'required',
         ];
     }
 }
