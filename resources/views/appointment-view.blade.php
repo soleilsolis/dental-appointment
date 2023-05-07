@@ -132,7 +132,7 @@
                             <x-field id="condition_{{ $toothChart->id }}" name="condition_{{ $toothChart->id }}" type="dropdown" label="Condition">
                                 <option value=""></option>
                                 @foreach ($conditions as $condition)
-                                    <option value="{{ $condition->id }}" @if ($toothChart->condition_id === $condition->id) selected @endif>
+                                    <option value="{{ $condition->id }}" @if ((int) $toothChart->condition_id === (int) $condition->id) selected @endif>
                                         {{ $condition->code }} - {{ $condition->name }}
                                     </option>
                                 @endforeach

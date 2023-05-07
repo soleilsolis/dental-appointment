@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'test1@dispostable.com',
             'email_verified_at' => now(),
-            'password' => '$2a$12$2te7TYyagWvCWWjqsxTEyOTEFX3najXqY59q5Os8QewC.MmweTkXa',
+            'password' => '$2a$12$pWCHGnVMmdDskcPmBvyzneHJgaW7cCM5lWG5jkiwmWRzlGxzXuSHK',
             'first_name' => 'John',
             'last_name' => 'Doe',
             'type' => 'admin',
