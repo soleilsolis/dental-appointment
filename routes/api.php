@@ -36,6 +36,7 @@ Route::middleware('auth.session')->group(function() {
         Route::post('/appointment/cancel/{id}', 'cancel');
         Route::post('/appointment/complete/{id}', 'complete');
         Route::post('/appointment/addPhoto/{id}', 'addPhoto');
+        Route::post('/appointment/prescription/{id}', 'prescription');
     });
 
     Route::controller(ServiceController::class)->group(function () {
@@ -45,6 +46,7 @@ Route::middleware('auth.session')->group(function() {
     });
 
     Route::controller(ToothChartController::class)->group(function () {
-        Route::post('/toothchart/add');
+        Route::post('/toothChart/add');
+        Route::post('/toothChart/update/appointment/{id}', 'update');
     });
 });

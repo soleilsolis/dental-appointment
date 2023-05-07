@@ -6,7 +6,8 @@
             {{ $slot }}
         </select>
     @elseif ($attributes->get('type') === 'textarea')
-        <textarea {{ $attributes }} class="resize-none"></textarea>
+        <textarea {{ $attributes }} class="resize-none">
+        {{ $slot }}</textarea>
 
     @else
         <input {{ $attributes }}>

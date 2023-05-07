@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\ToothChart;
+use App\Models\Condition;
+use App\Models\Modification;
+
 use App\Http\Requests\StoreToothChartRequest;
 use App\Http\Requests\UpdateToothChartRequest;
+use Illuminate\Http\Request;
 
 class ToothChartController extends Controller
 {
@@ -74,9 +78,29 @@ class ToothChartController extends Controller
      * @param  \App\Models\ToothChart  $toothChart
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateToothChartRequest $request, ToothChart $toothChart)
+    public function update(Request $request, ToothChart $toothChart)
     {
-        //
+        foreach ($request->all() as $key => $value) {
+            $chartable = explode('_', $key);
+
+
+            if ($chartable[0] === 'condition' && $value) {
+                $toothChart = ToothChart::find($chartable[1]);
+
+                $toothChart->condition_id = $value;
+                $toothChart->save();
+
+            }
+            if ($chartable[0] === 'modification') {
+                $toothChart = ToothChart::find($chartable[1]);
+                $toothChart->modifications = json_encode($value);
+                $toothChart->save();
+                
+            }
+
+        }
+
+        return response()->json([]);
     }
 
     /**

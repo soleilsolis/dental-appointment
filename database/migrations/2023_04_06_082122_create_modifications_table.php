@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tooth_types', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('name');
-            $table->enum('type', ['baby', 'permanent']);
+        Schema::create('modifications', function (Blueprint $table) {
+            $table->id();
+            $table->string("name");
+            $table->string("code");
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tooth_types');
+        Schema::dropIfExists('modifications');
     }
 };

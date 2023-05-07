@@ -16,12 +16,13 @@ return new class extends Migration
         Schema::create('tooth_charts', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignIdFor(\App\Models\User::class);
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreignIdFor(\App\Models\ToothType::class);
-            $table->foreign('condition_id')->references('id')->on('conditions');
-            $table->foreignIdFor(\App\Models\Condition::class);
+            $table->foreignIdFor(\App\Models\Appointment::class);
+            $table->foreign('appointment_id')->references('id')->on('appointments');
+            $table->uuid('tooth_type_id');
             $table->foreign('tooth_type_id')->references('id')->on('tooth_types');
+            $table->foreignIdFor(\App\Models\Condition::class)->nullable();
+            $table->foreign('condition_id')->references('id')->on('conditions');
+            $table->json('modifications')->nullable();
         });
     }
 

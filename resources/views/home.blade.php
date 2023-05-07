@@ -1,3 +1,8 @@
+@php
+    $appointments = \App\Models\Appointment::orderBy('id', 'desc')->limit(5)->get();
+
+@endphp
+
 @extends('layouts.app')
 
 @section('title', 'Home')
@@ -59,36 +64,22 @@
         <div>   
             <table class="ui stackable table w-full border-0 shadow-md">
                 <thead>
+                    <th></th>
                     <th>New Appointments</th>
                 </thead>
 
                 <tbody>
-                    <tr>
+                    @foreach ($appointments as $appointment)
+                    <tr onclick="location.href = '/appointment/{{ $appointment->id  }}'"><td>
+                        {{ $appointment->id }}
+                    </td>
                         <td>
-                            Mariya Takeuchi
+                            {{ $appointment->last_name }}
+                            {{ $appointment->first_name }}, 
                         </td>
                     </tr>
-                    <tr>
-                        <td>
-                            Bob Make
-                        </td>
-                    </tr>
+                    @endforeach
 
-                    <tr>
-                        <td>
-                            Dez Fafara
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Que Tontu
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Imanee D. Oat
-                        </td>
-                    </tr>
                 </tbody>
             </table>
         </div>

@@ -4,50 +4,63 @@
 
 @extends('layouts.app')
 
-@section('title', "#d")
+@section('title', "#{$appointment->id} - {$appointment->patient->last_name}, {$appointment->patient->first_name}")
 
 
 @section('main')
    <div class="ui secondary menu">
         <div class="item">
-            @if ($appointment->accepted_at && !$appointment->cancelled_at)
-            <span class="ui green button">Accepted</span>
+            @if ($appointment->accepted_at && !$appointment->cancelled_at && !$appointment->completed_at)
+            <span class="text-3xl font-semibold text-green-500">Accepted</span>
         @elseif($appointment->cancelled_at)
-            <span class="ui red button">Cancelled</span>
+        <span class="text-3xl font-semibold text-red-500">Cancelled</span>
+
         @elseif($appointment->completed_at)
-            <span class="ui button">Complete</span>
+            <span class="text-3xl font-semibold text-blue-500">Completed</span>
+
+        
         @else
             <span class="ui yellow button">Pending</span>
         @endif
         </div>
         <div class="right menu">
+            @if (!$appointment->completed_at && \Illuminate\Support\Facades\Auth::user()->type === 'dentist')  
+
+
             <div class="ui dropdown">
                 <div class="text"><i class="wrench icon"></i> Options</div>
                 <i class="dropdown icon"></i>
                 <div class="menu">
+                    @if (! $appointment->accepted_at && ! $appointment->cancelled_at && ! $appointment->completed_at)
+                        <div class="item appointment-set-status" data-action="/appointment/accept/{{ $appointment->id }}" data-status="accept">
+                            <i class="check icon"></i>
+                            Accept  
+                        </div>
+                    @endif
+                    
+                    @if ($appointment->cancelled_at && ! $appointment->completed_at)                       
+                        <div class="item appointment-set-status" data-action="/appointment/accept/{{ $appointment->id }}" data-status="reschedule">
+                            <i class="file icon"></i>
+                            Reschedule
+                        </div>
+                    @endif     
 
-                  <div class="item appointment-set-status" data-action="/appointment/accept/{{ $appointment->id }}" data-status="accept">
-                    <i class="check icon"></i>
-                    Accept
-                  </div>
+                    @if ($appointment->accepted_at && !$appointment->cancelled_at && ! $appointment->completed_at)               
+                        <div class="item appointment-set-status" data-action="/appointment/cancel/{{ $appointment->id }}" data-status="cancel">
+                            <i class="delete icon"></i>
+                            Cancel
+                        </div>
+                    @endif
+                    @if ($appointment->accepted_at && ! $appointment->cancelled_at && !$appointment->completed_at)  
+                    <div class="item appointment-set-status" data-action="/appointment/complete/{{ $appointment->id }}" data-status="complete">
+                            <i class="star icon"></i>
+                            Complete
+                        </div>
+                    @endif
 
-                  <div class="item appointment-set-status" data-action="/appointment/accept/{{ $appointment->id }}" data-status="reschedule">
-                    <i class="file icon"></i>
-                    Reschedule
-                  </div>
-
-                  <div class="item appointment-set-status" data-action="/appointment/cancel/{{ $appointment->id }}" data-status="cancel">
-                    <i class="delete icon"></i>
-                    Cancel
-                  </div>
-
-                  <div class="item appointment-set-status" data-action="/appointment/complete/{{ $appointment->id }}" data-status="complete">
-                    <i class="star icon"></i>
-                    Complete
-                  </div>
-              
                 </div>
               </div>
+              @endif
         </div>
    </div>
 
@@ -75,34 +88,120 @@
                     <div>
                         <div class="font-medium text-xl">Schedule: </div>
                         <span id="appointment-schedule" class="font-semibold text-2xl">
-                            {{ $appointment->date }} @ {{ $appointment->start_time }} - {{ $appointment->end_time }} 
+                            {{ Carbon::parse($appointment->date)->format('M d, Y') }} 
+                            @ {{ Carbon::parse($appointment->start_time)->format('g:i A') }} 
+                            - {{ Carbon::parse($appointment->end_time)->format('g:i A') }} 
                         </span>
                     </div>
                     <div class="my-4">
                         <div class="font-medium text-xl">Notes: </div>
                         <span id="appointment-notes" class="text-lg">{{ $appointment->notes }}</span>
                     </div>
-                    <div>
-                        <div class="font-medium text-xl">Prescription: </div>
-                        <span id="appointment-prescription" class="font-semibold text-2xl"></span>
-                    </div>                
+                    @if ($appointment->accepted_at)  
+                        <div>
+                            <div class="font-medium text-xl">Accepted At: </div>
+                            <span id="appointment-prescription" class="font-semibold text-2xl">{{ Carbon::parse($appointment->accepted_at)->format('M d, Y g:i A') }}</span>
+                        </div>      
+                    @endif      
+
+                    @if ($appointment->cancelled_at)  
+                        <div>
+                            <div class="font-medium text-xl">Canceled At: </div>
+                            <span id="appointment-prescription" class="font-semibold text-2xl">{{ Carbon::parse($appointment->cancelled_at)->format('M d, Y g:i A') }}</span>
+                        </div> 
+                    @endif      
+                       
+                    @if ($appointment->completed_at)  
+                        <div>
+                            <div class="font-medium text-xl">Completed At: </div>
+                            <span id="appointment-prescription" class="font-semibold text-2xl">{{ Carbon::parse($appointment->completed_at)->format('M d, Y g:i A') }}</span>
+                        </div> 
+                    @endif      
                 </div>
             </div>
         </x-segment>
 
         @if ($appointment->accepted_at)
             <h2 class="ui header text-3xl font-semibold">Tooth Chart</h2>
-            <x-segment></x-segment>
+            <x-segment>
+                <form class="ui large form submit-form" data-action="/toothChart/update/appointment/{{ $appointment->id }}" data-method="POST" data-callback="reload">
+                    @csrf
+                    @foreach ($appointment->toothChart as $toothChart)
+                        <h3 class="mb-2 font-semibold text-xl">{{ $toothChart->toothType->id }} - {{ $toothChart->toothType->name }}</h3>
+                        <div class="equal width fields">
+                            <x-field id="condition_{{ $toothChart->id }}" name="condition_{{ $toothChart->id }}" type="dropdown" label="Condition">
+                                <option value=""></option>
+                                @foreach ($conditions as $condition)
+                                    <option value="{{ $condition->id }}" @if ($toothChart->condition_id === $condition->id) selected @endif>
+                                        {{ $condition->code }} - {{ $condition->name }}
+                                    </option>
+                                @endforeach
+                            </x-field>
+
+                            <x-field id="modification_{{ $toothChart->id }}" name="modification_{{ $toothChart->id }}[]" multiple type="dropdown" label="Modifications">
+
+                               @php
+                                   $x = json_decode($toothChart->modifications, true) ?? [];
+                               @endphp
+                                @foreach ($modifications as $modification)
+                                    <option value="{{ $modification->id }}"
+                                      
+                                        @if (array_search($modification->id, $x ) !== false) 
+                                            selected
+                                        @endif
+                                    >
+                                 
+                                        {{ $modification->code }} - {{ $modification->name }}
+                                    </option>
+                                @endforeach
+                            </x-field>
+                        </div>
+                    @endforeach 
+
+        @if (\Illuminate\Support\Facades\Auth::user()->type === 'dentist')
+
+                    <x-button class="blue large w-auto">Save</x-button>
+
+                    @endif
+                </form>
+            </x-segment>
+
+            <h2 class="ui header text-3xl font-semibold">Prescription</h2>
+            <x-segment>
+        @if (\Illuminate\Support\Facades\Auth::user()->type === 'dentist')
+
+                <form data-action="/appointment/prescription/{{ $appointment->id }}" class="ui large form submit-form" data-method="POST" data-callback='reload'>
+                    <x-field id="prescription" name="prescription" type="textarea">{{ $appointment->prescription }}</x-field>
+                    <x-button class=" olive large w-auto" type="submit">Save</x-button>
+                    @csrf
+                </form>
+
+                @else
+                {{ $appointment->prescription }}
+                @endif
+            </x-segment>
 
             <h2 class="ui header text-3xl font-semibold">Pictures</h2>
-            <x-segment></x-segment>
+            <x-segment>
+                <div class="ui images">
+                    @foreach (json_decode($appointment->pictures, true) ?? [] as $picture)
+                        <img class="ui rounded small image" src="{{ $picture }}" alt="">
+                    @endforeach  
+                </div>        
+        @if (\Illuminate\Support\Facades\Auth::user()->type === 'dentist')
+                
+                    <x-button id="photo-button" class=" teal large w-auto" data-action="" data-status="photo-button" onclick="$('#upload-photos').modal('show')">Upload Photos</x-button>
+                    @endif
+
+            </x-segment>
 
         @endif
         
-        <x-modals.upload-photo></x-modals.upload-photo>
 
         @if (\Illuminate\Support\Facades\Auth::user()->type === 'dentist')
             <x-modals.appointment-actions-modal></x-modals.appointment-actions-modal>
+        <x-modals.upload-photo></x-modals.upload-photo>
+
         @endif
     </div>  
 @endsection
@@ -125,7 +224,9 @@
                 $('#appointment-actions-modal').modal('show');
             });
 
-            document.getElementById('upload-photo-form').dataset.action = "/appointment/addPhoto/"+{{ $appointment->id }};
         });
+
+        document.getElementById('upload-photo-form').dataset.action = "/appointment/addPhoto/"+{{ $appointment->id }};
+
     </script>
 @endsection

@@ -17,7 +17,7 @@
 
     <x-field id="notes" name="notes" label="Notes" type="textarea" placeholder="Describe Your Situation..."></x-field>
 
-    <button class="ui circular big blue button mt-12 float-right" type="submit">Save</button>
-    <span class="ui circular big secondary button mt-12 float-right" onclick="$('#new-appointment').modal('hide')">Close</span>
+    <button class="ui circular large blue button mt-12 float-left" type="submit">Save</button>
+    <span class="ui circular inverted large secondary button mt-12 float-left" onclick="$('#new-appointment').modal('hide')">Close</span>
 
 </form>

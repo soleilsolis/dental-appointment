@@ -5,11 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ToothType extends Model
+class Modification extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'type', 'id'];
+    protected $fillable = ['name', 'code'];
 
-    protected $primaryKey = 'string';
 }

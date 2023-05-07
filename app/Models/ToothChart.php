@@ -9,11 +9,20 @@ class ToothChart extends Model
 {
     use HasFactory;
 
-    public function toothType() {
-        return $this->hasOne(ToothType::class);
+    protected $fillable = ['appointment_id','tooth_type_id', 'condition_id',];
+
+    public function toothType() 
+    {
+        return $this->belongsTo(ToothType::class, 'tooth_type_id', 'id');
+    }
+
+    public function condition() 
+    {
+        return $this->belongsTo(ToothType::class);
     }
     
-    public function user() {
-        return $this->belongsTo(User::class);
+    public function appointment() 
+    {
+        return $this->belongsTo(Appointment::class);
     }
 }

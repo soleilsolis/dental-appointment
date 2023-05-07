@@ -3,13 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointment;
+use App\Models\ToothChart;
+use App\Models\ToothType;
+
 use App\Http\Requests\StoreAppointmentRequest;
 use App\Http\Requests\UpdateAppointmentRequest;
 use App\Http\Requests\UploadPhotoRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Schedule;
+use App\Mail\Prescription;
+use App\Mail\Canceled;
+use App\Mail\Reschedule;
 use Faker\Generator as Faker;
 use PDF;
 
@@ -23,9 +30,9 @@ class AppointmentController extends Controller
     public function index(Request $request)
     {
         $appointments = Auth::user()->type !== 'patient' 
-                    ? Appointment::all()
+                    ? Appointment::all()->sortDesc()
                     : Appointment::where('user_id', '=', Auth::id())
-                        ->get();
+                        ->get()->sortDesc();
 
         foreach($appointments as $appointment){
             $appointment->date = Carbon::parse($appointment->date)->format('F d, Y');
@@ -62,8 +69,14 @@ class AppointmentController extends Controller
             'prescription' => ""
             
         ]);
-        
 
+        foreach (ToothType::all() as $toothType) {
+            ToothChart::create([
+                'appointment_id' =>  $data->id,
+                'tooth_type_id' => $toothType->id,
+            ]);
+        }
+        
         return response()->json(compact('data'));
     }
 
@@ -174,6 +187,8 @@ class AppointmentController extends Controller
 
         $data = $appointment;
 
+        Mail::to($appointment->patient)->send(new Schedule($appointment));
+
         return response()->json(compact('data'));
     }
 
@@ -185,6 +200,8 @@ class AppointmentController extends Controller
         $appointment->save();
 
         $data = $appointment;
+
+        Mail::to($appointment->patient)->send(new Canceled($appointment));
 
         return response()->json(compact('data'));
     }
@@ -198,7 +215,22 @@ class AppointmentController extends Controller
 
         $data = $appointment;
 
+        Mail::to($appointment->patient)->send(new Prescription($appointment));
+
         return response()->json(compact('data'));
+    }
+
+    public function prescription(Request $request)
+    {
+        $appointment = Appointment::findOrFail($request->id);
+        $appointment->prescription =  $request->prescription;
+
+        $appointment->save();
+
+        $data = $appointment;
+
+        return response()->json(compact('data'));
+
     }
     
 

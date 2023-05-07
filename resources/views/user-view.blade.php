@@ -8,8 +8,8 @@
 
 
 @section('main')
-    <div class="grid lg:grid-cols-9 md:grid-cols-6 grid-cols-1 gap-10 max-w-6xl">
-        <div class="lg:col-span-6 md:col-span-4 col-span-1 ">
+    <div class="grid lg:grid-cols-9 md:grid-cols-6 grid-cols-1 gap-10 ">
+        <div class="lg:col-span-4 md:col-span-3 col-span-1 ">
             <x-segment>
                 <img class="ui rounded-full image aspect-square shadow-md w-[300px] mb-10" src="https://picsum.photos/500" alt="">
 
@@ -36,6 +36,17 @@
             <a class="text-green-500 ml-5 cursor-pointer hover:underline transition-ease" onclick="newAppointmentAdmin()">Create Appointment</a>
 
             <a class="text-red-500 ml-5 cursor-pointer hover:underline transition-ease">Delete Account</a>
+        </div>
+        <div class="lg:col-span-3 md:col-span-2 col-span-1 ">
+            <h3 class="text-2xl font-semibold mb-5">Appointments</h3>
+            
+            @foreach ($user->appointments as $appointment)
+                <a href="/appointment/{{ $appointment->id }}">
+                    <x-segment class="mb-5">
+                        <h3 class="text-xl font-semibold">#{{ $appointment->id }}</h3>
+                    </x-segment>
+                </a>
+            @endforeach
         </div>
     </div>
 @endsection

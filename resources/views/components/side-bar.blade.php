@@ -15,12 +15,14 @@
             </span>
         </span>
     </div>
+    @if (Auth::user()->type === 'dentist')
 
     <a href="/home" class="item mt-2">
         <span class="font-semibold text-2xl">
             Home
         </span>
     </a>
+    @endif
 
     <a href="/appointments" class="item ">
         <span class="font-semibold text-2xl">
