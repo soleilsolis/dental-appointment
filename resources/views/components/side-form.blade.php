@@ -6,7 +6,7 @@
         <span class="ml-5 text-2xl font-bold">RM Dental Studio</span>
     </div>
 
-    <h1 class="font-bold text-4xl mt-12 portrait:mt-10">{{ $title ?? '' }}</h1>
+    <h1 class="font-semibold text-4xl mt-12 portrait:mt-10">{{ $title ?? '' }}</h1>
     <p class="text-gray-500 mb-12 mt-4 text-xl">{{ $subtitle ?? '' }}</p>
 
     <div class="pb-10">

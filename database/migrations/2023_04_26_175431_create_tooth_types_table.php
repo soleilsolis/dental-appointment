@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('tooth_types', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
+            $table->string('image_path')->nullable();
             $table->enum('type', ['baby', 'permanent']);
             $table->timestamps();
         });

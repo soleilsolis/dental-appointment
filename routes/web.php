@@ -74,8 +74,3 @@ Route::middleware('auth')->group(function() {
         })->name('user')->where('id', '[0-9]+');
     });
 });
-
-Route::get('/x', function(){
-    $appointment = Appointment::find(1);
-
-});

@@ -9,7 +9,7 @@ class ToothType extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'type', 'id'];
+    protected $fillable = ['name', 'type', 'id', 'image_path'];
 
     protected $primaryKey = 'string';
 }

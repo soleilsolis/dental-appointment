@@ -1,8 +1,4 @@
 {
-  "resources/image/logo.png": {
-    "file": "assets/logo.24ef85cc.png",
-    "src": "resources/image/logo.png"
-  },
   "resources/image/waves.svg": {
     "file": "assets/waves.22c0dce1.svg",
     "src": "resources/image/waves.svg"
@@ -11,13 +7,17 @@
     "file": "assets/pexel.d199a1cf.jpg",
     "src": "resources/image/pexel.jpg"
   },
+  "resources/image/logo.png": {
+    "file": "assets/logo.24ef85cc.png",
+    "src": "resources/image/logo.png"
+  },
   "resources/js/app.js": {
     "file": "assets/app.d0ca03fb.js",
     "src": "resources/js/app.js",
     "isEntry": true
   },
   "resources/css/app.css": {
-    "file": "assets/app.650bf7b9.css",
+    "file": "assets/app.00e686e7.css",
     "src": "resources/css/app.css",
     "isEntry": true
   }

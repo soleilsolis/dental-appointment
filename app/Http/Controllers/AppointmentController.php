@@ -9,6 +9,7 @@ use App\Models\ToothType;
 use App\Http\Requests\StoreAppointmentRequest;
 use App\Http\Requests\UpdateAppointmentRequest;
 use App\Http\Requests\UploadPhotoRequest;
+use App\Http\Requests\Prescription as PrescriptionValidation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -27,6 +28,22 @@ class AppointmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function massDelete(Request $request)
+    {
+        foreach($request->all() as $key => $value){
+            $appointment = Appointment::find((int) ltrim($key, 'mass_'));
+            
+            if($value == 'on'){
+                $appointment->cancelled_at = now();
+                $appointment->save();
+            }
+        }
+
+        $data = [];
+        return response()->json(compact('data'));
+    }
+
     public function index(Request $request)
     {
         $appointments = Auth::user()->type !== 'patient' 
@@ -64,13 +81,25 @@ class AppointmentController extends Controller
         ]);
 
         foreach (ToothType::all() as $toothType) {
-            ToothChart::create([
+            $current = ToothChart::create([
                 'appointment_id' =>  $data->id,
                 'tooth_type_id' => $toothType->id,
             ]);
+
+            $previous = ToothChart::whereRelation('appointment', 'user_id', $current->appointment->user_id)
+            ->where([
+                'tooth_type_id' => $toothType->id,
+            ])
+            ->first();
+
+            if($previous){
+                $current->condition_id = $previous->condition_id;
+                $current->modifications = $previous->modifications;
+                $current->save();
+            }
         }
         
-        return response()->json(compact('data'));
+    //    return response()->json(compact('data'));
     }
 
     /**
@@ -89,7 +118,6 @@ class AppointmentController extends Controller
         $data->end_time = $appointment->end_time ? Carbon::parse($appointment->end_time)->format('g:i A'): "";
 
         return response()->json(compact('data'));
-
     }
 
     /**
@@ -112,25 +140,7 @@ class AppointmentController extends Controller
      * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Http\Response
      */
-    public function addPhoto(UploadPhotoRequest $request, Faker $faker) {
-        $appointment = Appointment::findOrFail($request->id);
-        
-        $path = json_decode($appointment->pictures, true);
 
-        foreach ($request->file('pictures') as $picture) {
-            $extension = $picture->extension();
-            $filename = "{$faker->uuid()}.{$extension}";
-            $picture->move(storage_path() . '/app/public/pictures', $filename);
-
-            $path[] = env('APP_URL') . '/storage/pictures/' . $filename;
-        }
-        
-        $appointment->pictures = json_encode($path, true);
-        $appointment->save();
-
-        return response()->json(compact('data'));
-
-    }
 
     public function list(){
         $appointment = Appointment::all();
@@ -214,10 +224,39 @@ class AppointmentController extends Controller
         return response()->json(compact('data'));
     }
 
-    public function prescription(Request $request)
+    public function addPhoto(UploadPhotoRequest $request, Faker $faker) {
+        $appointment = Appointment::findOrFail($request->id);
+        
+        $path = json_decode($appointment->pictures, true);
+
+        foreach ($request->file('pictures') as $picture) {
+            $extension = $picture->extension();
+            $filename = "{$faker->uuid()}.{$extension}";
+            $picture->move(storage_path() . '/app/public/pictures', $filename);
+
+            $path[] = env('APP_URL') . '/storage/pictures/' . $filename;
+        }
+        
+        $appointment->pictures = json_encode($path, true);
+        $appointment->save();
+
+        return response()->json(compact('data'));
+    }
+
+    public function prescription(PrescriptionValidation $request, Faker $faker)
     {
         $appointment = Appointment::findOrFail($request->id);
-        $appointment->prescription =  $request->prescription;
+
+        $file = $request->file('prescription');
+        $extension = $file->extension();
+
+        $filename = "{$faker->uuid()}.{$extension}";
+
+        $path = storage_path() . '/app/public/documents';
+
+        $file->move($path , $filename);
+
+        $appointment->prescription =  '/storage/documents/'.$filename;
 
         $appointment->save();
 

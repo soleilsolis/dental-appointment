@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignIdFor(\App\Models\Appointment::class);
-            $table->foreign('appointment_id')->references('id')->on('appointments');
+            $table->foreign('appointment_id')->references('id')->on('appointments')->onDelete('cascade');
             $table->uuid('tooth_type_id');
             $table->foreign('tooth_type_id')->references('id')->on('tooth_types');
             $table->foreignIdFor(\App\Models\Condition::class)->nullable();

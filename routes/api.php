@@ -37,6 +37,7 @@ Route::middleware('auth.session')->group(function() {
         Route::post('/appointment/complete/{id}', 'complete');
         Route::post('/appointment/addPhoto/{id}', 'addPhoto');
         Route::post('/appointment/prescription/{id}', 'prescription');
+        Route::post('/appointments/mass-delete','massDelete');
     });
 
     Route::controller(ServiceController::class)->group(function () {
