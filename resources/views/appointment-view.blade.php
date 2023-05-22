@@ -141,10 +141,10 @@
                         <div class="mb-5">
                             <h3 class="mb-2 font-semibold text-xl flex items-center" >
 
-                                <span class="inline-flex"><img src="{{ $toothChart->toothType->image_path }}" alt="" class="h-14 mr-5"></span>
+                                <span class="inline-flex"><img src="{{ $toothChart->toothType->image_path }}" alt="" class="h-36 mr-5"></span>
                                 
                                 {{ $toothChart->toothType->id }} -
-                                {{ $toothChart->toothType->name }}
+                        
                             
                             </h3>
                             <div class="equal width fields">
